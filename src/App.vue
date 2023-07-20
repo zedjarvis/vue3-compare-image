@@ -50,30 +50,48 @@ const code4 = `
       <code class="jsx">
       </code>
     </pre>
-    <vue-compare-image />
+    <div :style="{ maxWidth: '500px', margin: '0 auto' }" class="container">
+      <VueCompareImage leftImage="/cat1.jpg" rightImage="/cat2.jpg" />
+    </div>
 
     <pre v-highlightjs="code2">
       <code class="jsx">
       </code>
     </pre>
-    <vue-compare-image />
+    <div :style="{ maxWidth: '300px', margin: '0 auto' }" class="container">
+      <!-- eslint-disable-next-line -->
+      <VueCompareImage leftImage="/forest1.jpg" rightImage="/forest2.jpg" :sliderPositionPercentage="0.2"
+        leftLabel="Forest 1" rightLabel="Forest 2" />
+    </div>
 
     <pre v-highlightjs="code3">
       <code class="jsx">
       </code>
     </pre>
-    <vue-compare-image />
+    <div :style="{ maxWidth: '500px', margin: '0 auto' }" class="container">
+      <VueCompareImage leftImage="/cat1.jpg" rightImage="/forest2.jpg" hover />
+    </div>
 
     <pre v-highlightjs="code4">
       <code class="jsx">
       </code>
     </pre>
-    <vue-compare-image />
+    <div :style="{ maxWidth: '100%', margin: '0 auto' }" class="container">
+      <!-- eslint-disable-next-line -->
+      <VueCompareImage
+        leftImage="/forest1.jpg"
+        rightImage="/cat2.jpg"
+        :sliderLineWidth="5"
+        :handleSize="80"
+      />
+    </div>
   </div>
 </template>
 
 <style lang="scss">
-*, body, html {
+*,
+body,
+html {
   box-sizing: border-box;
   margin: 0;
 }
@@ -83,8 +101,10 @@ const code4 = `
 .container {
   background: gray;
 }
+
 pre {
   margin-top: 8rem;
+
   &:first-of-type {
     margin-top: 0;
   }
