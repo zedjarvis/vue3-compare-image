@@ -15,7 +15,8 @@
   "dependencies": {
     "core-js": "^3.31.1",
     "css-element-queries": "^1.2.3",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue3-highlightjs": "^1.0.5"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
