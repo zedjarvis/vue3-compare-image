@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // componets
-import VueCompareImage from './components';
 </script>
 
 <template>
