@@ -1,16 +1,8 @@
-# Vue Compare Image
+# Vue3 Compare Image
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
-
-Simple Vue.js component to compare two images using slider.
+Simple Vue.js 3 component to compare two images using slider. A rewritten version of [vue-compare-image](https://github.com/junkboy0315/vue-compare-image) with Vue3 support.
 
 ![img](https://user-images.githubusercontent.com/10986861/67158760-0f02a480-f377-11e9-9b83-75bc8005693a.gif)
-
-NOTE: [React Version](https://github.com/junkboy0315/react-compare-image) is also available!
-
-## Demo
-
-[DEMO](https://vue-compare-image.yuuniworks.com/)
 
 ## Features
 
@@ -25,17 +17,17 @@ NOTE: [React Version](https://github.com/junkboy0315/react-compare-image) is als
 In the shell:
 
 ```bash
-yarn add vue-compare-image
+yarn add vue3-compare-image
 
 // or
 
-npm install --save vue-compare-image
+npm install --save vue3-compare-image
 ```
 
 In your component file:
 
 ```js
-import VueCompareImage from 'vue-compare-image';
+import VueCompareImage from 'vue3-compare-image';
 
 export default {
   name: 'app',
@@ -68,16 +60,3 @@ export default {
 
 - [css-element-queries](https://github.com/marcj/css-element-queries) to detect element resize event.
 
-## Contributors
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-<table>
-  <tr>
-    <td align="center"><a href="https://www.yuuniworks.com/"><img src="https://avatars0.githubusercontent.com/u/10986861?v=4" width="100px;" alt="Shota Tamura"/><br /><sub><b>Shota Tamura</b></sub></a><br /><a href="https://github.com/junkboy0315/vue-compare-image/commits?author=junkboy0315" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/lukasirsak"><img src="https://avatars2.githubusercontent.com/u/30669262?v=4" width="100px;" alt="Lukáš Irsák"/><br /><sub><b>Lukáš Irsák</b></sub></a><br /><a href="https://github.com/junkboy0315/vue-compare-image/commits?author=lukasirsak" title="Code">💻</a></td>
-    <td align="center"><a href="https://morinricardo.com"><img src="https://avatars0.githubusercontent.com/u/6842945?v=4" width="100px;" alt="Ricardo Morin"/><br /><sub><b>Ricardo Morin</b></sub></a><br /><a href="https://github.com/junkboy0315/vue-compare-image/commits?author=jimmyangel" title="Code">💻</a></td>
-  </tr>
-</table>
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
