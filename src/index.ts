@@ -1,4 +1,4 @@
-import VueCompareImage from "./components";
+import VueCompareImage from "./components/VueCompareImage.vue";
 
 
-export { VueCompareImage };
+export default VueCompareImage ;

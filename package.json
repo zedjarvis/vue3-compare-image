@@ -18,7 +18,8 @@
     ".": {
       "import": "./dist/vue3-compare-image.js",
       "require": "./dist/vue3-compare-image.umd.cjs"
-    }
+    },
+    "./style.css": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite",
