@@ -11,13 +11,13 @@
   "type": "module",
   "files": ["dist", "src"],
   "private": false,
-  "main": "./dist/vue3-compare-image.cjs",
+  "main": "./dist/vue3-compare-image.umd.cjs",
   "module": "./dist/vue3-compare-image.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/vue3-compare-image.js",
-      "require": "./dist/vue3-compare-image.cjs"
+      "require": "./dist/vue3-compare-image.umd.cjs"
     }
   },
   "scripts": {
@@ -33,9 +33,6 @@
   "dependencies": {
     "core-js": "^3.31.1",
     "css-element-queries": "^1.2.3",
-    "vue3-highlightjs": "^1.0.5"
-  },
-  "peerDependencies": {
     "vue": "^3.3.4"
   },
   "devDependencies": {
