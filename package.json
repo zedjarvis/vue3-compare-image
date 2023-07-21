@@ -1,5 +1,6 @@
 {
   "name": "vue3-compare-image",
+  "private": false,
   "version": "0.1.2",
   "description": "Vue 3 component to compare two images using slider.",
   "author": {
@@ -13,17 +14,21 @@
     "url": "git+https://github.com/zedjarvis/vue3-compare-image"
   },
   "type": "module",
-  "files": ["dist"],
-  "private": false,
-  "main": "./dist/vue3-compare-image.umd.cjs",
-  "module": "./dist/vue3-compare-image.js",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/vue3-compare-image.umd.js",
+  "module": "./dist/vue3-compare-image.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue3-compare-image.js",
-      "require": "./dist/vue3-compare-image.umd.cjs"
+      "import": "./dist/vue3-compare-image.es.js",
+      "require": "./dist/vue3-compare-image.umd.js"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
   },
   "scripts": {
     "dev": "vite",
@@ -56,14 +61,16 @@
     "eslint-plugin-vue": "^9.11.0",
     "jsdom": "^22.1.0",
     "npm-run-all": "^4.1.5",
+    "path": "^0.12.7",
     "prettier": "^2.8.8",
+    "rollup-plugin-typescript2": "^0.35.0",
     "sass": "^1.64.0",
     "typescript": "~5.0.4",
     "vite": "^4.3.9",
     "vite-plugin-dts": "^3.3.1",
     "vitest": "^0.32.0",
-    "vue-tsc": "^1.6.5",
-    "vue": "^3.0.11"
+    "vue": "^3.0.11",
+    "vue-tsc": "^1.6.5"
   },
   "keywords": [
     "picture comparison",
