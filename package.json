@@ -1,6 +1,6 @@
 {
   "name": "vue3-compare-image",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "description": "Vue 3 component to compare two images using slider.",
   "author": {
@@ -33,7 +33,9 @@
   },
   "dependencies": {
     "core-js": "^3.31.1",
-    "css-element-queries": "^1.2.3",
+    "css-element-queries": "^1.2.3"
+  },
+  "peerDependencies": {
     "vue": "^3.3.4"
   },
   "devDependencies": {
