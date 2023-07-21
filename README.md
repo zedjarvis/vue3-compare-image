@@ -27,7 +27,8 @@ npm install --save vue3-compare-image
 In your component file:
 
 ```js
-import VueCompareImage from 'vue3-compare-image';
+import "vue3-compare-image/style.css"
+import { VueCompareImage } from "vue3-compare-image"
 
 export default {
   name: 'app',
