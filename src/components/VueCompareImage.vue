@@ -41,7 +41,6 @@ const props = withDefaults(defineProps<Props>(), {
 const { aspectRatio, leftImage, leftImageAlt, leftImageLabel, leftImageCss, rightImage, rightImageAlt, rightImageLabel, rightImageCss, hover, handle, handleSize, sliderLineWidth, sliderPositionPercentage, skeleton, sliderLineColor, vertical, onSliderPositionChange, slideOnClick } = toRefs(props)
 
 const horizontal = !vertical.value
-// const imageWidth = ref<number | undefined>(0)
 const containerRef = ref();
 const rightImageRef = ref<HTMLImageElement | null>(null);
 const leftImageRef = ref<HTMLImageElement | null>(null);
@@ -213,18 +212,6 @@ const rightLabelContainerStyle = computed((): CSSProperties => {
     }
 })
 
-// Make the component responsive
-onMounted(() => {
-    const containerElement = containerRef.value;
-    const resizeObserver = new ResizeObserver(([entry]) => {
-        const currentContainerWidth = entry.target.getBoundingClientRect().width;
-        containerWidth.value = currentContainerWidth;
-    });
-    resizeObserver.observe(containerElement);
-
-    return () => resizeObserver.disconnect();
-});
-
 function startSliding(e: MouseEvent | TouchEvent) {
     isSliding.value = true
     // Prevent default behavior other than mobile scrolling
@@ -282,6 +269,19 @@ function handleSliding(event: MouseEvent | TouchEvent) {
         onSliderPositionChange.value(horizontal ? pos / containerWidth.value : pos / containerHeight.value);
     }
 }
+
+
+// Make the component responsive
+onMounted(() => {
+    const containerElement = containerRef.value;
+    const resizeObserver = new ResizeObserver(([entry]) => {
+        const currentContainerWidth = entry.target.getBoundingClientRect().width;
+        containerWidth.value = currentContainerWidth;
+    });
+    resizeObserver.observe(containerElement);
+
+    return () => resizeObserver.disconnect();
+});
 
 
 onMounted(() => {
