@@ -1,20 +1,28 @@
 <!-- eslint-disable no-irregular-whitespace -->
 <script setup lang="ts">
 // utilities
-import { ref, computed, onMounted, onBeforeUnmount, toRefs } from "vue"
-import { ResizeSensor } from "css-element-queries"
+import { ref, computed, onMounted, onBeforeUnmount, toRefs, watch, type CSSProperties } from "vue"
+
 
 export interface Props {
-    leftImage: string
-    leftImageAlt?: string
-    leftLabel?: string
-    rightImage: string
-    rightImageAlt?: string
-    rightLabel?: string
-    hover?: boolean
-    handleSize?: number
-    sliderLineWidth?: number
-    sliderPositionPercentage?: number
+    aspectRatio?: 'taller' | 'wider';
+    handle?: string | number | boolean;
+    handleSize?: number;
+    hover?: boolean;
+    leftImage: string;
+    leftImageAlt?: string;
+    leftImageCss?: object;
+    leftImageLabel?: string;
+    onSliderPositionChange?: (position: number) => void;
+    rightImage: string;
+    rightImageAlt?: string;
+    rightImageCss?: object;
+    rightImageLabel?: string;
+    skeleton?: string | number | boolean;
+    sliderLineColor?: string;
+    sliderLineWidth?: number;
+    sliderPositionPercentage?: number;
+    vertical?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -22,245 +30,365 @@ const props = withDefaults(defineProps<Props>(), {
     handleSize: 40,
     sliderLineWidth: 2,
     sliderPositionPercentage: 0.5,
+    vertical: false,
+    onSliderPositionChange: () => { },
+    sliderLineColor: '#ffffff',
+    aspectRatio: "wider"
 })
 
-const { leftImage, leftImageAlt, leftLabel, rightImage, rightImageAlt, rightLabel, hover, handleSize, sliderLineWidth, sliderPositionPercentage } = toRefs(props)
+const { aspectRatio, leftImage, leftImageAlt, leftImageLabel, leftImageCss, rightImage, rightImageAlt, rightImageLabel, rightImageCss, hover, handle, handleSize, sliderLineWidth, sliderPositionPercentage, skeleton, sliderLineColor, vertical, onSliderPositionChange } = toRefs(props)
 
-const imageWidth = ref(0)
-const positionPct = ref(sliderPositionPercentage.value)
-const rightLabelWidth = ref()
-const containerRef = ref()
-const leftImageRef = ref()
-const rightImageRef = ref()
-const rightLabelRef = ref()
+const horizontal = !vertical.value
+// const imageWidth = ref<number | undefined>(0)
+const containerRef = ref();
+const rightImageRef = ref<HTMLImageElement | null>(null);
+const leftImageRef = ref<HTMLImageElement | null>(null);
+const sliderPosition = ref(sliderPositionPercentage.value);
+const containerWidth = ref(0);
+const containerHeight = ref(0);
+const leftImgLoaded = ref(false);
+const rightImgLoaded = ref(false);
+const isSliding = ref(false);
 
 
-const leftImageStyle = computed(() => {
+const allImagesLoaded = computed(() => leftImgLoaded.value && rightImgLoaded.value)
+
+const containerStyle = computed((): CSSProperties => {
     return {
-        clip: `rect(auto, ${imageWidth.value * positionPct.value}px, auto, auto)`,
+        boxSizing: 'border-box',
+        position: 'relative',
+        width: '100%',
+        height: `${containerHeight.value}px`,
+        overflow: 'hidden',
     }
 })
 
-const rightLabelStyle = computed(() => {
-    const cutLeft = Math.max(
-        0,
-        rightLabelWidth.value + imageWidth.value * (positionPct.value - 1),
-      );
+const rightImageStyle = computed((): CSSProperties => {
     return {
-        clip: `rect(auto, auto, auto, ${cutLeft}px)`,
+        clip: horizontal ? `rect(auto, auto, auto, ${containerWidth.value * sliderPosition.value}px)` : `rect(${containerHeight.value * sliderPosition.value}px, auto, auto, auto)`,
+        display: 'block',
+        height: '100%',
+        objectFit: 'cover',
+        position: 'absolute',
+        width: '100%',
+        ...rightImageCss,
     }
 })
 
-const sliderStyle = computed(() => {
+const leftImageStyle = computed((): CSSProperties => {
     return {
-        cursor: `${hover.value && 'ew-resize'}`,
-        left: `${imageWidth.value * positionPct.value - handleSize.value / 2}px`,
-        width: `${handleSize.value}px`,
+        clip: horizontal ? `rect(auto, ${containerWidth.value * sliderPosition.value}px, auto, auto)` : `rect(auto, auto, ${containerHeight.value * sliderPosition.value}px, auto)`,
+        display: 'block',
+        height: '100%',
+        objectFit: 'cover',
+        position: 'absolute',
+        width: '100%',
+        ...leftImageCss,
     }
 })
 
-const sliderLineStyle = computed(() => {
-    return { width: `${sliderLineWidth.value}px` };
+const sliderStyle = computed((): CSSProperties => {
+    return {
+        alignItems: 'center',
+        cursor: !hover.value && horizontal ? 'ew-resize' : !hover.value && !horizontal ? 'ns-resize' : undefined,
+        display: 'flex',
+        flexDirection: horizontal ? 'column' : 'row',
+        height: horizontal ? '100%' : `${handleSize.value}px`,
+        justifyContent: 'center',
+        left: horizontal ? `${containerWidth.value * sliderPosition.value - handleSize.value / 2}px` : '0',
+        position: 'absolute',
+        top: horizontal ? '0' : `${containerHeight.value * sliderPosition.value - handleSize.value / 2}px`,
+        width: horizontal ? `${handleSize.value}px` : '100%',
+    }
 })
 
-const sliderHandleStyle = computed(() => {
+const lineStyle = computed((): CSSProperties => {
     return {
-        border: `${sliderLineWidth.value}px solid white`,
+        background: sliderLineColor.value,
+        boxShadow:
+            '0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)',
+        flex: '0 1 auto',
+        height: horizontal ? '100%' : `${sliderLineWidth.value}px`,
+        width: horizontal ? `${sliderLineWidth.value}px` : '100%',
+    }
+})
+
+const handleCustomStyle = computed((): CSSProperties => {
+    return {
+        alignItems: 'center',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flex: '1 0 auto',
+        height: 'auto',
+        justifyContent: 'center',
+        width: 'auto',
+    }
+})
+
+const handleDefaultStyle = computed((): CSSProperties => {
+    return {
+        alignItems: 'center',
+        border: `${sliderLineWidth.value}px solid ${sliderLineColor.value}`,
+        borderRadius: '100%',
+        boxShadow:
+            '0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flex: '1 0 auto',
         height: `${handleSize.value}px`,
+        justifyContent: 'center',
         width: `${handleSize.value}px`,
+        transform: horizontal ? 'none' : 'rotate(90deg)',
     }
 })
 
-const sliderLeftArrowStyle = computed(() => {
+const leftArrowStyle = computed((): CSSProperties => {
     return {
         border: `inset ${handleSize.value * 0.15}px rgba(0,0,0,0)`,
-        borderRight: `${handleSize.value * 0.15}px solid white`,
+        borderRight: `${handleSize.value * 0.15}px solid ${sliderLineColor.value}`,
+        height: '0px',
         marginLeft: `-${handleSize.value * 0.25}px`, // for IE11
         marginRight: `${handleSize.value * 0.25}px`,
+        width: '0px',
     }
 })
 
-const sliderRightArrowStyle = computed(() => {
+const rightArrowStyle = computed((): CSSProperties => {
     return {
         border: `inset ${handleSize.value * 0.15}px rgba(0,0,0,0)`,
-        borderLeft: `${handleSize.value * 0.15}px solid white`,
+        borderLeft: `${handleSize.value * 0.15}px solid ${sliderLineColor.value}`,
+        height: '0px',
         marginRight: `-${handleSize.value * 0.25}px`, // for IE11
+        width: '0px',
     }
 })
 
+const leftLabelStyle = computed((): CSSProperties => {
+    return {
+        background: 'rgba(0, 0, 0, 0.5)',
+        color: 'white',
+        left: horizontal ? '5%' : '50%',
+        opacity: isSliding.value ? 0 : 1,
+        padding: '10px 20px',
+        position: 'absolute',
+        top: horizontal ? '50%' : '3%',
+        transform: horizontal ? 'translate(0,-50%)' : 'translate(-50%, 0)',
+        transition: 'opacity 0.1s ease-out',
+    }
+})
 
-function getAndSetImageWidth() {
-    imageWidth.value = rightImageRef.value?.getBoundingClientRect().width;
-    rightLabelWidth.value = rightLabelRef.value?.getBoundingClientRect().width;
-}
+const rightLabelStyle = computed((): CSSProperties => {
+    return {
+        background: 'rgba(0, 0, 0, 0.5)',
+        color: 'white',
+        opacity: isSliding.value ? 0 : 1,
+        padding: '10px 20px',
+        position: 'absolute',
+        left: horizontal ? 'unset' : '50%',
+        right: horizontal ? '5%' : 'unset',
+        top: horizontal ? '50%' : 'unset',
+        bottom: horizontal ? 'unset' : '3%',
+        transform: horizontal ? 'translate(0,-50%)' : 'translate(-50%, 0)',
+        transition: 'opacity 0.1s ease-out',
+    }
+})
 
-function  startSliding(e: Event) {
+const leftLabelContainerStyle = computed((): CSSProperties => {
+    return {
+        clip: horizontal ? `rect(auto, ${containerWidth.value * sliderPosition.value}px, auto, auto)` : `rect(auto, auto, ${containerHeight.value * sliderPosition.value}px, auto)`,
+        height: '100%',
+        position: 'absolute',
+        width: '100%',
+    }
+})
+
+const rightLabelContainerStyle = computed((): CSSProperties => {
+    return {
+        clip: horizontal ? `rect(auto, auto, auto, ${containerWidth.value * sliderPosition.value}px)` : `rect(${containerHeight.value * sliderPosition.value}px, auto, auto, auto)`,
+        height: '100%',
+        position: 'absolute',
+        width: '100%',
+    }
+})
+
+// Make the component responsive
+onMounted(() => {
+    const containerElement = containerRef.value;
+    const resizeObserver = new ResizeObserver(([entry]) => {
+        const currentContainerWidth = entry.target.getBoundingClientRect().width;
+        containerWidth.value = currentContainerWidth;
+    });
+    resizeObserver.observe(containerElement);
+
+    return () => resizeObserver.disconnect();
+});
+
+function startSliding(e: MouseEvent | TouchEvent) {
+    isSliding.value = true
     // Prevent default behavior other than mobile scrolling
     if (!('touches' in e)) {
-    e.preventDefault();
+        e.preventDefault();
     }
 
     // Slide the image even if you just click or tap (not drag)
-    updateSliderPosition(e);
+    handleSliding(e);
 
-    window.addEventListener('mousemove', updateSliderPosition);
-    window.addEventListener('touchmove', updateSliderPosition);
+    window.addEventListener('mousemove', handleSliding);
+    window.addEventListener('touchmove', handleSliding);
 }
 
 function finishSliding() {
-    window.removeEventListener('mousemove', updateSliderPosition);
-    window.removeEventListener('touchmove', updateSliderPosition);
+    isSliding.value = false
+    window.removeEventListener('mousemove', handleSliding);
+    window.removeEventListener('touchmove', handleSliding);
 }
 
-function updateSliderPosition(event: Event) {
-    const e = event as TouchEvent
+function handleSliding(event: MouseEvent | TouchEvent) {
+    const e = event as TouchEvent;
 
-    // Calc Cursor Position from the left edge of the viewport
+    // Calc cursor position from the:
+    // - left edge of the viewport (for horizontal)
+    // - top edge of the viewport (for vertical)
     // @ts-ignore
     const cursorXfromViewport = e.touches ? e.touches[0].pageX : e.pageX;
+    // @ts-ignore
+    const cursorYfromViewport = e.touches ? e.touches[0].pageY : e.pageY;
 
-    // Calc Cursor Position from the left edge of the window (consider any page scrolling)
+
+    // Calc Cursor Position from the:
+    // - left edge of the window (for horizontal)
+    // - top edge of the window (for vertical)
+    // to consider any page scrolling
     const cursorXfromWindow = cursorXfromViewport - window.pageXOffset;
+    const cursorYfromWindow = cursorYfromViewport - window.pageYOffset;
 
     // Calc Cursor Position from the left edge of the image
-    const imagePosition = rightImageRef.value.getBoundingClientRect();
-    let pos = cursorXfromWindow - imagePosition.left;
+    const imagePosition = rightImageRef.value!.getBoundingClientRect();
+    let pos = horizontal ? cursorXfromWindow - imagePosition.left : cursorYfromWindow - imagePosition.top;
+
 
     // Set minimum and maximum values ​​to prevent the slider from overflowing
     const minPos = 0 + sliderLineWidth.value / 2;
-    const maxPos = imageWidth.value - sliderLineWidth.value / 2;
+    const maxPos = horizontal ? containerWidth.value - sliderLineWidth.value / 2 : containerHeight.value - sliderLineWidth.value / 2;
 
     if (pos < minPos) pos = minPos;
     if (pos > maxPos) pos = maxPos;
 
-    positionPct.value = pos / imageWidth.value;
+    sliderPosition.value = horizontal ? pos / containerWidth.value : pos / containerHeight.value;
+
+    if (onSliderPositionChange.value) {
+        onSliderPositionChange.value(horizontal ? pos / containerWidth.value : pos / containerHeight.value);
+    }
 }
 
-onMounted(() => {
-    // get and set `imageWidth` when the container size changed
-    // (including first time rendering)
-    //
-    // eslint-disable-next-line
-    new ResizeSensor(containerRef.value, () => {
-        getAndSetImageWidth()
-    })
 
+onMounted(() => {
     const containerElement = containerRef.value;
 
     // for mobile
-    containerElement.addEventListener('touchstart', startSliding);
-    window.addEventListener('touchend', finishSliding);
+    containerElement?.addEventListener('touchstart', startSliding); // 01
+    window.addEventListener('touchend', finishSliding); // 02
 
     // for desktop
-    if (hover.value) {
-      containerElement.addEventListener('mouseenter', startSliding);
-      containerElement.addEventListener('mouseleave', finishSliding);
+    if (props.hover) {
+        containerElement?.addEventListener('mousemove', handleSliding); // 03
+        containerElement?.addEventListener('mouseleave', finishSliding); // 04
     } else {
-      containerElement.addEventListener('mousedown', startSliding);
-      window.addEventListener('mouseup', finishSliding);
+        containerElement?.addEventListener('mousedown', startSliding); // 05
+        window.addEventListener('mouseup', finishSliding); // 06
     }
 })
 
 onBeforeUnmount(() => {
     finishSliding();
-    window.removeEventListener('mouseup', finishSliding);
+
+    const containerElement = containerRef.value;
+
+    containerElement?.removeEventListener('touchstart', startSliding);
     window.removeEventListener('touchend', finishSliding);
+    containerElement?.removeEventListener('mousemove', handleSliding);
+    containerElement?.removeEventListener('mouseleave', finishSliding);
+    containerElement?.removeEventListener('mousedown', startSliding);
+    window.removeEventListener('mouseup', finishSliding);
+    window.removeEventListener('mousemove', handleSliding);
+    window.removeEventListener('touchmove', handleSliding);
 })
+
+// Handle image loading
+const handleImageLoad = (imageRef: HTMLImageElement | null, setImgLoaded: (value: boolean) => void) => {
+    if (imageRef && imageRef.complete) {
+        setImgLoaded(true);
+    }
+};
+
+onMounted(() => {
+    handleImageLoad(leftImageRef.value, (value) => (leftImgLoaded.value = value));
+});
+
+// Watch for changes in leftImage
+const prevLeftImage = ref(leftImage);
+watch(
+    () => leftImage,
+    () => {
+        if (prevLeftImage.value !== leftImage.value) {
+            prevLeftImage.value = leftImage.value;
+            leftImgLoaded.value = false;
+            handleImageLoad(leftImageRef.value, (value) => (leftImgLoaded.value = value));
+        }
+    }
+);
+
+// Watch for changes in rightImage
+const prevRightImage = ref(rightImage);
+watch(
+    () => rightImage,
+    () => {
+        if (prevRightImage.value !== rightImage.value) {
+            prevRightImage.value = rightImage.value;
+            rightImgLoaded.value = false;
+            handleImageLoad(rightImageRef.value, (value) => (rightImgLoaded.value = value));
+        }
+    }
+);
+
+// Calculate container height
+watch(
+    [() => containerWidth.value, () => leftImgLoaded.value, () => rightImgLoaded.value],
+    () => {
+        const leftImageWidthHeightRatio = leftImageRef.value!.naturalHeight / leftImageRef.value!.naturalWidth;
+        const rightImageWidthHeightRatio = rightImageRef.value!.naturalHeight / rightImageRef.value!.naturalWidth;
+
+        const idealWidthHeightRatio =
+            aspectRatio.value === 'taller' ? Math.max(leftImageWidthHeightRatio, rightImageWidthHeightRatio) : Math.min(leftImageWidthHeightRatio, rightImageWidthHeightRatio);
+
+        const idealContainerHeight = containerWidth.value * idealWidthHeightRatio;
+        containerHeight.value = idealContainerHeight;
+    }
+);
 </script>
 
 <template>
-    <div class="vci-container" ref="containerRef">
-        <img :alt="leftImageAlt" :src="leftImage" :style="leftImageStyle" class="left-image" ref="leftImageRef" />
-        <div :style="leftImageStyle" class="left-label">{{ leftLabel }}</div>
-
-        <img :alt="rightImageAlt" :src="rightImage" class="right-image" ref="rightImageRef" />
-        <div :style="rightLabelStyle" ref="rightLabelRef" class="right-label">{{ rightLabel }}</div>
-
-        <div :style="sliderStyle" class="vci-slider">
-            <div :style="sliderLineStyle" class="line" />
-            <div :style="sliderHandleStyle" class="handle">
-                <div :style="sliderLeftArrowStyle" class="left-arrow" />
-                <div :style="sliderRightArrowStyle" class="right-arrow" />
+    <div v-if="skeleton && !allImagesLoaded">{{ skeleton }}</div>
+    <div data-testid="container" ref="containerRef"
+        :style="{ ...containerStyle, display: allImagesLoaded ? 'block' : 'none' }">
+        <img @load="rightImgLoaded = true" :alt="rightImageAlt" data-testid="right-image" ref="rightImageRef"
+            :src="rightImage" :style="rightImageStyle">
+        <img @load="leftImgLoaded = true" :alt="leftImageAlt" data-testid="left-image" ref="leftImageRef" :src="leftImage"
+            :style="leftImageStyle">
+        <div :style="sliderStyle">
+            <div :style="lineStyle" />
+            <div v-if="handle" :style="handleCustomStyle">{{ handle }}</div>
+            <div v-else :style="handleDefaultStyle">
+                <div :style="leftArrowStyle" />
+                <div :style="rightArrowStyle" />
             </div>
-            <div :style="sliderLineStyle" class="line" />
+            <div :style="lineStyle" />
+        </div>
+        <div v-if="leftImageLabel" :style="leftLabelContainerStyle">
+            <div :style="leftLabelStyle">{{ leftImageLabel }}</div>
+        </div>
+        <div v-if="rightImageLabel" :style="rightLabelContainerStyle">
+            <div :style="rightLabelStyle">{{ rightImageLabel }}</div>
         </div>
     </div>
 </template>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-.vci-container {
-    box-sizing: border-box;
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-}
-
-.left-image {
-    display: block;
-    height: 100%; // fit to the height of under image
-    object-fit: cover; // protrudes is hidden
-    position: absolute;
-    top: 0;
-    width: 100%;
-}
-
-.left-label {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    padding: 10px;
-}
-
-.right-image {
-    display: block;
-    height: auto; // Respect the aspect ratio
-    width: 100%;
-}
-
-.right-label {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    padding: 10px;
-}
-
-.vci-slider {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-
-    .line {
-        background: white;
-        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-            0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-        flex: 0 1 auto;
-        height: 100%;
-    }
-
-    .handle {
-        align-items: center;
-        border-radius: 100%;
-        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-            0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-        box-sizing: border-box;
-        display: flex;
-        flex: 1 0 auto;
-        justify-content: center;
-    }
-
-    .left-arrow {
-        height: '0px';
-        width: '0px';
-    }
-
-    .right-arrow {
-        height: '0px';
-        width: '0px';
-    }
-}
-</style>
