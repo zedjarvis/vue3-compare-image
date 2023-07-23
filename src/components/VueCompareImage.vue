@@ -9,6 +9,7 @@ export interface Props {
     handle?: string | number | boolean;
     handleSize?: number;
     hover?: boolean;
+    slideOnClick?: boolean;
     leftImage: string;
     leftImageAlt?: string;
     leftImageCss?: object;
@@ -27,6 +28,7 @@ export interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     hover: false,
+    slideOnClick: true,
     handleSize: 40,
     sliderLineWidth: 2,
     sliderPositionPercentage: 0.5,
@@ -36,7 +38,7 @@ const props = withDefaults(defineProps<Props>(), {
     aspectRatio: "wider"
 })
 
-const { aspectRatio, leftImage, leftImageAlt, leftImageLabel, leftImageCss, rightImage, rightImageAlt, rightImageLabel, rightImageCss, hover, handle, handleSize, sliderLineWidth, sliderPositionPercentage, skeleton, sliderLineColor, vertical, onSliderPositionChange } = toRefs(props)
+const { aspectRatio, leftImage, leftImageAlt, leftImageLabel, leftImageCss, rightImage, rightImageAlt, rightImageLabel, rightImageCss, hover, handle, handleSize, sliderLineWidth, sliderPositionPercentage, skeleton, sliderLineColor, vertical, onSliderPositionChange, slideOnClick } = toRefs(props)
 
 const horizontal = !vertical.value
 // const imageWidth = ref<number | undefined>(0)
@@ -231,7 +233,7 @@ function startSliding(e: MouseEvent | TouchEvent) {
     }
 
     // Slide the image even if you just click or tap (not drag)
-    handleSliding(e);
+    if (slideOnClick.value) handleSliding(e);
 
     window.addEventListener('mousemove', handleSliding);
     window.addEventListener('touchmove', handleSliding);
