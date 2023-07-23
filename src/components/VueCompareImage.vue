@@ -370,7 +370,7 @@ watch(
 </script>
 
 <template>
-    <div v-if="skeleton && !allImagesLoaded">{{ skeleton }}</div>
+    <div v-if="skeleton && !allImagesLoaded" :style="containerStyle" v-html="skeleton"></div>
     <div data-testid="container" ref="containerRef"
         :style="{ ...containerStyle, display: allImagesLoaded ? 'block' : 'none' }">
         <img @load="rightImgLoaded = true" :alt="rightImageAlt" data-testid="right-image" ref="rightImageRef"
