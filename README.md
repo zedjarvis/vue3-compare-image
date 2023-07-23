@@ -65,9 +65,10 @@ export default {
 | Prop (\* required)       | type                    |   default   | description                                                                                                           |
 | ------------------------ | ----------------------- | :---------: | --------------------------------------------------------------------------------------------------------------------- |
 | aspectRatio              | `'taller'` or `'wider'` | `'taller'`  | Which to choose if the aspect ratios of the images are different                                                      |
-| handle                   | element                 |    null     | Custom handle element. Just pass `<React.Fragment />` if you want to remove handle.                                   |
+| handle                   | element                 |    null     | Custom handle element. Just pass and empty `<div />` if you want to remove the handle.                                 |
 | handleSize               | number (px)             |     40      | diameter of slider handle (by pixel)                                                                                  |
 | hover                    | boolean                 |    false    | Whether to slide at hover                                                                                             |
+| slideOnClick                    | boolean                 |    true    | Whether to slide on click and drag or just drag.                                                                                             |
 | leftImage \*             | string                  |    null     | left image's url                                                                                                      |
 | leftImageAlt             | string                  |    `''`     | alt props for left image                                                                                              |
 | leftImageCss             | object                  |     {}      | Additional css for left image                                                                                         |
