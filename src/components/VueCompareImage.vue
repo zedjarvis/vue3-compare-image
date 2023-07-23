@@ -377,7 +377,7 @@ watch(
             :style="leftImageStyle">
         <div :style="sliderStyle">
             <div :style="lineStyle" />
-            <div v-if="handle" :style="handleCustomStyle">{{ handle }}</div>
+            <div v-if="handle" :style="handleCustomStyle" v-html="handle"></div>
             <div v-else :style="handleDefaultStyle">
                 <div :style="leftArrowStyle" />
                 <div :style="rightArrowStyle" />
