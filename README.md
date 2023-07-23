@@ -4,8 +4,7 @@
 A Vue 3 component to compare and slide between two images, supporting vertical and horizontal comparison modes.
 
 
-> NOTE: This project is a fork of [vue-compare-image](https://github.com/junkboy0315/vue-compare-image) with  Vue 3 support and with all functionalities of [react-compare-image](hhttps://github.com/junkboy0315/react-compare-image).
-Thank you to [junkboy0315](https://github.com/junkboy0315) for creating both vue-compare-image and react-compare-image which served as the foundation for this fork.
+> NOTE: This project is a fork of [vue-compare-image](https://github.com/junkboy0315/vue-compare-image) with  Vue 3 support and with all functionalities of [react-compare-image](https://github.com/junkboy0315/react-compare-image). <br>Thank you to [junkboy0315](https://github.com/junkboy0315) for creating both vue-compare-image and react-compare-image which served as the foundation for this fork.
 
 
 ![img](https://user-images.githubusercontent.com/10986861/67158760-0f02a480-f377-11e9-9b83-75bc8005693a.gif)
