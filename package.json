@@ -1,7 +1,7 @@
 {
   "name": "vue3-compare-image",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Vue 3 component to compare and slide between two images, supporting vertical and horizontal comparison modes.",
   "author": {
     "name": "Cedrouseroll Omondi",
