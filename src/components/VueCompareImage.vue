@@ -232,7 +232,7 @@ function finishSliding() {
     window.removeEventListener('touchmove', handleSliding);
 }
 
-function handleSliding(event: MouseEvent | TouchEvent) {
+function handleSliding(event: MouseEvent | TouchEvent | KeyboardEvent) {
     const e = event as TouchEvent;
 
     // Calc cursor position from the:
@@ -270,6 +270,39 @@ function handleSliding(event: MouseEvent | TouchEvent) {
     }
 }
 
+function handleKeyDown(e: KeyboardEvent) {
+  if (e.target !== containerRef.value) {
+    // Ignore key events if the container element is not focused
+    return;
+  }
+
+  const step = 0.01; // You can adjust the step value for keyboard movement
+
+  if (e.key === 'ArrowDown' && props.vertical) {
+    e.preventDefault();
+    const newPos = sliderPosition.value - step;
+    sliderPosition.value = Math.max(newPos, 0);
+    handleSliding(e);
+  } else if (e.key === 'ArrowUp' && props.vertical) {
+    e.preventDefault();
+    const newPos = sliderPosition.value + step;
+    sliderPosition.value = Math.min(newPos, 1);
+    handleSliding(e);
+  } else if (e.key === 'ArrowLeft' && !props.vertical) {
+    e.preventDefault();
+    let newPos = sliderPosition.value - step;
+    newPos = Math.max(newPos, 0);
+    sliderPosition.value = newPos * (horizontal ? containerWidth.value : containerHeight.value);
+    handleSliding(e);
+  } else if (e.key === 'ArrowRight' && !props.vertical) {
+    e.preventDefault();
+    let newPos = sliderPosition.value + step;
+    newPos = Math.min(newPos, 1);
+    sliderPosition.value = newPos * (horizontal ? containerWidth.value : containerHeight.value);
+    handleSliding(e);
+  }
+}
+
 
 // Make the component responsive
 onMounted(() => {
@@ -297,7 +330,9 @@ onMounted(() => {
         containerElement?.addEventListener('mouseleave', finishSliding); // 04
     } else {
         containerElement?.addEventListener('mousedown', startSliding); // 05
+        window.addEventListener("keydown", handleKeyDown)
         window.addEventListener('mouseup', finishSliding); // 06
+        window.removeEventListener("keyup", finishSliding)
     }
 })
 
