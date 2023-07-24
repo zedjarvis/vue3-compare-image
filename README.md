@@ -80,8 +80,7 @@ export default {
 | rightImageLabel          | string                  |    null     | Label for the image (e.g. `after`)                                                                                    |
 | skeleton                 | element                 |    null     | Element displayed while image is loading                                                                              |
 | sliderLineColor          | string                  | `'#ffffff'` | line color of slider                                                                                                  |
-| sliderLineWidth          | number (px)             |      2      | line width of slider (by pixel)                                                                                       |
-| sliderPositionPercentage | number (float)          |     0.5     | Default line position (from 0 to 1)                                                                                   |
+| sliderLineWidth          | number (px)             |      2      | line width of slider (by pixel). set `0` to hide slider line.                                                                                       |
+| sliderPositionPercentage | number (float)          |     0.5     | Default slider line position (from 0 to 1)                                                                                   |
 | vertical                 | boolean                 |    false    | Compare images vertically instead of horizontally. The left image is on the top and the right image is on the bottom. |
-
 
