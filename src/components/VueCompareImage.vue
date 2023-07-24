@@ -26,6 +26,11 @@ export interface Props {
     vertical?: boolean;
 }
 
+const emit = defineEmits<{
+    (e: "slideStart", pos: number): void;
+    (e: "slideEnd", pos: number): void;
+}>();
+
 const props = withDefaults(defineProps<Props>(), {
     hover: false,
     slideOnClick: true,
@@ -214,6 +219,7 @@ const rightLabelContainerStyle = computed((): CSSProperties => {
 
 function startSliding(e: MouseEvent | TouchEvent) {
     isSliding.value = true
+    emit("slideStart", sliderPosition.value);
     // Prevent default behavior other than mobile scrolling
     if (!('touches' in e)) {
         e.preventDefault();
@@ -228,6 +234,7 @@ function startSliding(e: MouseEvent | TouchEvent) {
 
 function finishSliding() {
     isSliding.value = false
+    emit("slideEnd", sliderPosition.value)
     window.removeEventListener('mousemove', handleSliding);
     window.removeEventListener('touchmove', handleSliding);
 }
