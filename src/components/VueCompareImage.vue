@@ -10,6 +10,8 @@ export interface Props {
     handleSize?: number;
     hover?: boolean;
     slideOnClick?: boolean;
+    keyboard?: boolean;
+    keyboardStep?: number;
     leftImage: string;
     leftImageAlt?: string;
     leftImageCss?: object;
@@ -27,11 +29,15 @@ export interface Props {
 }
 
 const emit = defineEmits<{
-    (e: "slideStart", pos: number): void;
-    (e: "slideEnd", pos: number): void;
+    (e: "slideStart", pos: number): void
+    (e: "slideEnd", pos: number): void
 }>();
 
+
+
 const props = withDefaults(defineProps<Props>(), {
+    keyboard: false,
+    keyboardStep: 0.01,
     hover: false,
     slideOnClick: true,
     handleSize: 40,
@@ -43,7 +49,9 @@ const props = withDefaults(defineProps<Props>(), {
     aspectRatio: "wider"
 })
 
-const { aspectRatio, leftImage, leftImageAlt, leftImageLabel, leftImageCss, rightImage, rightImageAlt, rightImageLabel, rightImageCss, hover, handle, handleSize, sliderLineWidth, sliderPositionPercentage, skeleton, sliderLineColor, vertical, onSliderPositionChange, slideOnClick } = toRefs(props)
+const { aspectRatio, leftImage, leftImageAlt, leftImageLabel, leftImageCss, rightImage, rightImageAlt, rightImageLabel, rightImageCss, hover, handle, handleSize, sliderLineWidth, sliderPositionPercentage, skeleton, sliderLineColor, vertical, onSliderPositionChange, slideOnClick, keyboard, keyboardStep } = toRefs(props)
+
+const componentId = Math.random().toString(36).substr(2, 9);
 
 const horizontal = !vertical.value
 const containerRef = ref();
@@ -66,6 +74,7 @@ const containerStyle = computed((): CSSProperties => {
         width: '100%',
         height: `${containerHeight.value}px`,
         overflow: 'hidden',
+        display: allImagesLoaded.value ? 'block' : 'none',
     }
 })
 
@@ -217,28 +226,6 @@ const rightLabelContainerStyle = computed((): CSSProperties => {
     }
 })
 
-function startSliding(e: MouseEvent | TouchEvent) {
-    isSliding.value = true
-    emit("slideStart", sliderPosition.value);
-    // Prevent default behavior other than mobile scrolling
-    if (!('touches' in e)) {
-        e.preventDefault();
-    }
-
-    // Slide the image even if you just click or tap (not drag)
-    if (slideOnClick.value) handleSliding(e);
-
-    window.addEventListener('mousemove', handleSliding);
-    window.addEventListener('touchmove', handleSliding);
-}
-
-function finishSliding() {
-    isSliding.value = false
-    emit("slideEnd", sliderPosition.value)
-    window.removeEventListener('mousemove', handleSliding);
-    window.removeEventListener('touchmove', handleSliding);
-}
-
 function handleSliding(event: MouseEvent | TouchEvent | KeyboardEvent) {
     const e = event as TouchEvent;
 
@@ -277,37 +264,76 @@ function handleSliding(event: MouseEvent | TouchEvent | KeyboardEvent) {
     }
 }
 
+function startSliding(e: MouseEvent | TouchEvent | KeyboardEvent) {
+    isSliding.value = true
+    emit("slideStart", sliderPosition.value);
+
+    if (!horizontal) e.preventDefault() // prevent all default + mobile scrolling if vertical
+    else if (!('touches' in e)) e.preventDefault(); // prevent default except from mobile scrolling
+
+    // Slide the image even if you just click or tap (not drag)
+    if (slideOnClick.value) handleSliding(e);
+
+    // if (keyboard.value) window.addEventListener('keydown', handleKeyDown)
+
+    window.addEventListener('mousemove', handleSliding);
+    window.addEventListener('touchmove', handleSliding);
+}
+
+function finishSliding() {
+    isSliding.value = false
+    emit("slideEnd", sliderPosition.value)
+    window.removeEventListener('mousemove', handleSliding);
+    window.removeEventListener('touchmove', handleSliding);
+}
+
+
+
+function handleFocusIn() {
+    if (keyboard.value) {
+        window.addEventListener('keydown', handleKeyDown)
+    }
+}
+
+function handleFocusOut() {
+    if (keyboard.value) {
+        window.removeEventListener('keydown', handleKeyDown)
+    }
+}
+
+function handleOnClick() {
+    window.addEventListener('keydown', handleKeyDown)
+}
+
+function handleOnClickOutside(event: KeyboardEvent | MouseEvent) {
+    if (containerRef.value && !containerRef.value.contains(event.target)) {
+        // The click is outside the container, remove the event listener
+        containerRef.value.blur();
+        window.removeEventListener('keydown', handleKeyDown)
+    }
+}
+
+
 function handleKeyDown(e: KeyboardEvent) {
-  if (e.target !== containerRef.value) {
-    // Ignore key events if the container element is not focused
-    return;
-  }
-
-  const step = 0.01; // You can adjust the step value for keyboard movement
-
-  if (e.key === 'ArrowDown' && props.vertical) {
-    e.preventDefault();
-    const newPos = sliderPosition.value - step;
-    sliderPosition.value = Math.max(newPos, 0);
-    handleSliding(e);
-  } else if (e.key === 'ArrowUp' && props.vertical) {
-    e.preventDefault();
-    const newPos = sliderPosition.value + step;
-    sliderPosition.value = Math.min(newPos, 1);
-    handleSliding(e);
-  } else if (e.key === 'ArrowLeft' && !props.vertical) {
-    e.preventDefault();
-    let newPos = sliderPosition.value - step;
-    newPos = Math.max(newPos, 0);
-    sliderPosition.value = newPos * (horizontal ? containerWidth.value : containerHeight.value);
-    handleSliding(e);
-  } else if (e.key === 'ArrowRight' && !props.vertical) {
-    e.preventDefault();
-    let newPos = sliderPosition.value + step;
-    newPos = Math.min(newPos, 1);
-    sliderPosition.value = newPos * (horizontal ? containerWidth.value : containerHeight.value);
-    handleSliding(e);
-  }
+    if (e.key === 'ArrowDown' && !horizontal) {
+        e.preventDefault();
+        if ((sliderPosition.value + keyboardStep.value) > 1) sliderPosition.value = 1
+        else sliderPosition.value += keyboardStep.value;
+    } else if (e.key === 'ArrowUp' && !horizontal) {
+        e.preventDefault();
+        if ((sliderPosition.value - keyboardStep.value) < 0) sliderPosition.value = 0
+        else sliderPosition.value -= keyboardStep.value;
+    } else if (e.key === 'ArrowLeft' && horizontal) {
+        e.preventDefault();
+        if ((sliderPosition.value - keyboardStep.value) < 0) sliderPosition.value = 0
+        else sliderPosition.value -= keyboardStep.value;
+    } else if (e.key === 'ArrowRight' && horizontal) {
+        e.preventDefault();
+        if ((sliderPosition.value + keyboardStep.value) > 1) sliderPosition.value = 1
+        else sliderPosition.value += keyboardStep.value;
+    } else {
+        return
+    }
 }
 
 
@@ -326,74 +352,33 @@ onMounted(() => {
 
 onMounted(() => {
     const containerElement = containerRef.value;
-
-    // for mobile
-    containerElement?.addEventListener('touchstart', startSliding); // 01
-    window.addEventListener('touchend', finishSliding); // 02
-
-    // for desktop
+    // had to include this here, binding it with the container with the if hover prop doesn't work for some reason
     if (props.hover) {
         containerElement?.addEventListener('mousemove', handleSliding); // 03
         containerElement?.addEventListener('mouseleave', finishSliding); // 04
-    } else {
-        containerElement?.addEventListener('mousedown', startSliding); // 05
-        window.addEventListener("keydown", handleKeyDown)
-        window.addEventListener('mouseup', finishSliding); // 06
-        window.removeEventListener("keyup", finishSliding)
     }
+
+    window.addEventListener('click', handleOnClickOutside)
 })
 
 onBeforeUnmount(() => {
-    finishSliding();
-
     const containerElement = containerRef.value;
 
-    containerElement?.removeEventListener('touchstart', startSliding);
-    window.removeEventListener('touchend', finishSliding);
     containerElement?.removeEventListener('mousemove', handleSliding);
     containerElement?.removeEventListener('mouseleave', finishSliding);
-    containerElement?.removeEventListener('mousedown', startSliding);
-    window.removeEventListener('mouseup', finishSliding);
-    window.removeEventListener('mousemove', handleSliding);
-    window.removeEventListener('touchmove', handleSliding);
 })
 
-// Handle image loading
-const handleImageLoad = (imageRef: HTMLImageElement | null, setImgLoaded: (value: boolean) => void) => {
-    if (imageRef && imageRef.complete) {
-        setImgLoaded(true);
-    }
-};
-
-onMounted(() => {
-    handleImageLoad(leftImageRef.value, (value) => (leftImgLoaded.value = value));
+// Watch for changes in leftImage
+watch(leftImageRef, () => {
+    leftImgLoaded.value = false
+    if (leftImageRef.value?.complete) leftImgLoaded.value = true
 });
 
-// Watch for changes in leftImage
-const prevLeftImage = ref(leftImage);
-watch(
-    () => leftImage,
-    () => {
-        if (prevLeftImage.value !== leftImage.value) {
-            prevLeftImage.value = leftImage.value;
-            leftImgLoaded.value = false;
-            handleImageLoad(leftImageRef.value, (value) => (leftImgLoaded.value = value));
-        }
-    }
-);
-
 // Watch for changes in rightImage
-const prevRightImage = ref(rightImage);
-watch(
-    () => rightImage,
-    () => {
-        if (prevRightImage.value !== rightImage.value) {
-            prevRightImage.value = rightImage.value;
-            rightImgLoaded.value = false;
-            handleImageLoad(rightImageRef.value, (value) => (rightImgLoaded.value = value));
-        }
-    }
-);
+watch(rightImageRef, () => {
+    rightImgLoaded.value = false
+    if (rightImageRef.value?.complete) rightImgLoaded.value = true
+});
 
 // Calculate container height
 watch(
@@ -409,16 +394,19 @@ watch(
         containerHeight.value = idealContainerHeight;
     }
 );
+
 </script>
 
 <template>
-    <div v-if="skeleton && !allImagesLoaded" :style="containerStyle" v-html="skeleton"></div>
-    <div data-testid="container" ref="containerRef"
-        :style="{ ...containerStyle, display: allImagesLoaded ? 'block' : 'none' }">
-        <img @load="rightImgLoaded = true" :alt="rightImageAlt" data-testid="right-image" ref="rightImageRef"
-            :src="rightImage" :style="rightImageStyle">
-        <img @load="leftImgLoaded = true" :alt="leftImageAlt" data-testid="left-image" ref="leftImageRef" :src="leftImage"
-            :style="leftImageStyle">
+    <div data-testid="skeleton" v-if="skeleton && !allImagesLoaded" :style="containerStyle" v-html="skeleton"></div>
+    <div ref="containerRef" :id="componentId" @click="handleOnClick" @touchstart="startSliding" @touchend="finishSliding"
+        @focusin="handleFocusIn" @focusout="handleFocusOut" @mousedown="startSliding" @mouseup="finishSliding"
+        class="container" tabindex="0" data-testid="container"
+        :style="containerStyle">
+        <img class="right-image" @load="rightImgLoaded = true" :alt="rightImageAlt" data-testid="right-image"
+            ref="rightImageRef" :src="rightImage" :style="rightImageStyle">
+        <img class="left-image" @load="leftImgLoaded = true" :alt="leftImageAlt" data-testid="left-image" ref="leftImageRef"
+            :src="leftImage" :style="leftImageStyle">
         <div :style="sliderStyle">
             <div :style="lineStyle" />
             <div v-if="handle" :style="handleCustomStyle" v-html="handle"></div>
@@ -428,11 +416,12 @@ watch(
             </div>
             <div :style="lineStyle" />
         </div>
-        <div v-if="leftImageLabel" :style="leftLabelContainerStyle">
-            <div :style="leftLabelStyle">{{ leftImageLabel }}</div>
+        <div class="left-image-label-container" v-if="leftImageLabel" :style="leftLabelContainerStyle">
+            <div class="left-image-label" data-testid="left-image-label" :style="leftLabelStyle">{{ leftImageLabel }}</div>
         </div>
-        <div v-if="rightImageLabel" :style="rightLabelContainerStyle">
-            <div :style="rightLabelStyle">{{ rightImageLabel }}</div>
+        <div class="right-image-label-container" v-if="rightImageLabel" :style="rightLabelContainerStyle">
+            <div class="right-image-label" data-testid="right-image-label" :style="rightLabelStyle">{{ rightImageLabel }}
+            </div>
         </div>
     </div>
 </template>
