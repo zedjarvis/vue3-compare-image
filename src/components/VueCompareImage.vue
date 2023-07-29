@@ -28,11 +28,11 @@ export interface Props {
     vertical?: boolean;
 }
 
+
 const emit = defineEmits<{
     (e: "slideStart", pos: number): void
     (e: "slideEnd", pos: number): void
 }>();
-
 
 
 const props = withDefaults(defineProps<Props>(), {
@@ -70,11 +70,11 @@ const allImagesLoaded = computed(() => leftImgLoaded.value && rightImgLoaded.val
 const containerStyle = computed((): CSSProperties => {
     return {
         boxSizing: 'border-box',
+        display: allImagesLoaded.value ? 'flex' : 'none',
         position: 'relative',
         width: '100%',
         height: `${containerHeight.value}px`,
         overflow: 'hidden',
-        display: allImagesLoaded.value ? 'block' : 'none',
     }
 })
 
@@ -287,8 +287,6 @@ function finishSliding() {
     window.removeEventListener('touchmove', handleSliding);
 }
 
-
-
 function handleFocusIn() {
     if (keyboard.value) {
         window.addEventListener('keydown', handleKeyDown)
@@ -302,7 +300,9 @@ function handleFocusOut() {
 }
 
 function handleOnClick() {
-    window.addEventListener('keydown', handleKeyDown)
+    if (keyboard.value) {
+        window.addEventListener('keydown', handleKeyDown)
+    }
 }
 
 function handleOnClickOutside(event: KeyboardEvent | MouseEvent) {
@@ -312,7 +312,6 @@ function handleOnClickOutside(event: KeyboardEvent | MouseEvent) {
         window.removeEventListener('keydown', handleKeyDown)
     }
 }
-
 
 function handleKeyDown(e: KeyboardEvent) {
     if (e.key === 'ArrowDown' && !horizontal) {
@@ -336,7 +335,6 @@ function handleKeyDown(e: KeyboardEvent) {
     }
 }
 
-
 // Make the component responsive
 onMounted(() => {
     const containerElement = containerRef.value;
@@ -348,7 +346,6 @@ onMounted(() => {
 
     return () => resizeObserver.disconnect();
 });
-
 
 onMounted(() => {
     const containerElement = containerRef.value;
@@ -366,6 +363,8 @@ onBeforeUnmount(() => {
 
     containerElement?.removeEventListener('mousemove', handleSliding);
     containerElement?.removeEventListener('mouseleave', finishSliding);
+    window.removeEventListener('keydown', handleKeyDown);
+    window.removeEventListener('click', handleOnClickOutside);
 })
 
 // Watch for changes in leftImage
@@ -401,8 +400,7 @@ watch(
     <div data-testid="skeleton" v-if="skeleton && !allImagesLoaded" :style="containerStyle" v-html="skeleton"></div>
     <div ref="containerRef" :id="componentId" @click="handleOnClick" @touchstart="startSliding" @touchend="finishSliding"
         @focusin="handleFocusIn" @focusout="handleFocusOut" @mousedown="startSliding" @mouseup="finishSliding"
-        class="container" tabindex="0" data-testid="container"
-        :style="containerStyle">
+        class="container" tabindex="0" data-testid="container" :style="containerStyle">
         <img class="right-image" @load="rightImgLoaded = true" :alt="rightImageAlt" data-testid="right-image"
             ref="rightImageRef" :src="rightImage" :style="rightImageStyle">
         <img class="left-image" @load="leftImgLoaded = true" :alt="leftImageAlt" data-testid="left-image" ref="leftImageRef"
