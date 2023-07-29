@@ -3,11 +3,11 @@
 import cat1 from "/src/assets/cat1.jpg";
 import cat2 from "/src/assets/cat2.jpg";
 
-const startCallback = ( pos: number) => {
+const startCallback = (pos: number) => {
   console.log("component  started at ", pos)
 }
 
-const endCallback = ( pos: number) => {
+const endCallback = (pos: number) => {
   console.log("component has ended at ", pos)
 }
 
@@ -15,12 +15,15 @@ const endCallback = ( pos: number) => {
 
 <template>
   <div class="container" style="max-width: 500px; width: auto; height: auto; margin: 50px auto;">
-    <VueCompareImage keyboard :slide-on-click="false" vertical @slide-start="startCallback" @slide-end="endCallback"  :left-image="cat1" left-image-label="Left Image" :right-image="cat2" right-image-label="Right Image" handle="<div style='border: 1px solid red'>Handle</div>" />
+    <VueCompareImage skeleton="<div style='background-color: black; color: white'>HELLO WORLD</div>"
+      :slide-on-click="false" vertical @slide-start="startCallback" @slide-end="endCallback" :left-image="cat1"
+      left-image-label="Left Image" :right-image="cat2" right-image-label="Right Image" />
   </div>
   <div class="container" style="max-width: 500px; width: auto; height: auto; margin: 10px auto;">
-    <VueCompareImage keyboard vertical @slide-start="startCallback" @slide-end="endCallback"  :left-image="cat1" left-image-label="Left Image" :right-image="cat2" right-image-label="Right Image" handle="<div style='border: 1px solid red'>Handle</div>" />
+    <VueCompareImage keyboard vertical @slide-start="startCallback" @slide-end="endCallback" :left-image="cat1"
+      left-image-label="Left Image" :right-image="cat2" right-image-label="Right Image" />
   </div>
   <div class="container" style="max-width: 500px; width: auto; height: auto; margin: 10px auto;">
-    <VueCompareImage hover keyboard @slide-start="startCallback" @slide-end="endCallback"  :left-image="cat1" left-image-label="Left Image" :right-image="cat2" right-image-label="Right Image" handle="<div style='border: 1px solid red'>Handle</div>" />
-  </div>
-</template>
+    <VueCompareImage hover keyboard @slide-start="startCallback" @slide-end="endCallback" :left-image="cat1"
+    left-image-label="Left Image" :right-image="cat2" right-image-label="Right Image" />
+</div></template>
