@@ -1,5 +1,5 @@
 import type { App } from "vue";
-import VueCompareImage from "./components/VueCompareImage.vue";
+import VueCompareImage, {type Props} from "./components/VueCompareImage.vue";
 
 export default {
     install: (app: App) => {
@@ -7,4 +7,4 @@ export default {
     }
 };
 
-export { VueCompareImage };
+export { VueCompareImage, type Props };
