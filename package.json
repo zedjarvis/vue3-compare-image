@@ -1,71 +1,13 @@
 {
   "name": "vue3-compare-image",
   "private": false,
-  "version": "1.0.1",
-  "description": "A Vue 3 component to compare and slide between two images, supporting vertical and horizontal comparison modes.",
+  "version": "1.1.0",
+  "type": "module",
+  "description": "A Vue 3 component to compare and slide between two images, supports vertical and horizontal modes, and Keyboard for accessibility.",
   "author": {
     "name": "Cedrouseroll Omondi",
     "email": "omondicedo@gmail.com",
     "url": "https://github.com/zedjarvis"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zedjarvis/vue3-compare-image"
-  },
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/vue3-compare-image.umd.js",
-  "module": "./dist/vue3-compare-image.es.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/vue3-compare-image.es.js",
-      "require": "./dist/vue3-compare-image.umd.js"
-    }
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check build-only",
-    "preview": "vite preview",
-    "test:unit": "vitest",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
-  },
-  "dependencies": {
-    "core-js": "^3.31.1"
-  },
-  "peerDependencies": {
-    "vue": "^3.0.11"
-  },
-  "devDependencies": {
-    "@rushstack/eslint-patch": "^1.2.0",
-    "@tsconfig/node18": "^2.0.1",
-    "@types/jsdom": "^21.1.1",
-    "@types/node": "^18.16.17",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "@vue/eslint-config-prettier": "^7.1.0",
-    "@vue/eslint-config-typescript": "^11.0.3",
-    "@vue/test-utils": "^2.3.2",
-    "@vue/tsconfig": "^0.4.0",
-    "eslint": "^8.39.0",
-    "eslint-plugin-vue": "^9.11.0",
-    "jsdom": "^22.1.0",
-    "npm-run-all": "^4.1.5",
-    "path": "^0.12.7",
-    "prettier": "^2.8.8",
-    "rollup-plugin-typescript2": "^0.35.0",
-    "sass": "^1.64.0",
-    "typescript": "~5.0.4",
-    "vite": "^4.3.9",
-    "vite-plugin-dts": "^3.3.1",
-    "vitest": "^0.32.0",
-    "vue": "^3.0.11",
-    "vue-tsc": "^1.6.5"
   },
   "keywords": [
     "vue",
@@ -78,5 +20,73 @@
     "image diff",
     "latest"
   ],
-  "readme": "./README.md"
+  "readme": "./README.md",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zedjarvis/vue3-compare-image"
+  },
+  "homepage": "https://github.com/zedjarvis/vue3-compare-image",
+  "bugs": "https://github.com/zedjarvis/vue3-compare-image/issues",
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
+  "main": "./dist/vue3-compare-image.umd.js",
+  "module": "./dist/vue3-compare-image.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/vue3-compare-image.es.js",
+      "require": "./dist/vue3-compare-image.umd.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check build-only",
+    "preview": "vite preview",
+    "test:unit": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write src/",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "dependencies": {
+    "core-js": "^3.31.1"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.11"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@tsconfig/node18": "^18.2.0",
+    "@types/jsdom": "^21.1.1",
+    "@types/node": "^20.4.5",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitest/coverage-v8": "^0.33.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/eslint-config-typescript": "^11.0.3",
+    "@vue/test-utils": "^2.3.2",
+    "@vue/tsconfig": "^0.4.0",
+    "eslint": "^8.39.0",
+    "eslint-plugin-vue": "^9.11.0",
+    "jsdom": "^22.1.0",
+    "npm-run-all": "^4.1.5",
+    "path": "^0.12.7",
+    "prettier": "^3.0.0",
+    "rollup-plugin-typescript2": "^0.35.0",
+    "sass": "^1.64.1",
+    "typescript": "~5.1.6",
+    "vite": "^4.4.7",
+    "vite-plugin-dts": "^3.3.1",
+    "vitepress": "^1.0.0-beta.6",
+    "vitest": "^0.33.0",
+    "vue": "^3.0.11",
+    "vue-tsc": "^1.8.6"
+  }
 }
