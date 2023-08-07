@@ -1,0 +1,1 @@
+export { default as _VueCompareImage } from './VueCompareImage.vue'
