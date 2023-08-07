@@ -1,7 +1,7 @@
 <!-- eslint-disable no-irregular-whitespace -->
 <script setup lang="ts">
 // utilities
-import { ref, computed, onMounted, onBeforeUnmount, toRefs, watch, type CSSProperties } from "vue"
+import { ref, computed, onMounted, onBeforeUnmount, toRefs, watch, getCurrentInstance, type CSSProperties } from "vue"
 
 
 export interface Props {
@@ -63,7 +63,6 @@ const containerHeight = ref(0);
 const leftImgLoaded = ref(false);
 const rightImgLoaded = ref(false);
 const isSliding = ref(false);
-
 
 const allImagesLoaded = computed(() => leftImgLoaded.value && rightImgLoaded.value)
 
@@ -335,6 +334,19 @@ function handleKeyDown(e: KeyboardEvent) {
     }
 }
 
+function forceRenderHover(): void {
+    const instance = getCurrentInstance()
+    instance?.proxy?.$forceUpdate()
+    const containerElement = containerRef.value;
+    if (props.hover) {
+        containerElement?.addEventListener('mousemove', handleSliding); // 03
+        containerElement?.addEventListener('mouseleave', finishSliding); // 04
+    } else {
+        containerElement?.removeEventListener('mousemove', handleSliding); // 03
+        containerElement?.removeEventListener('mouseleave', finishSliding); // 04
+    }
+}
+
 // Make the component responsive
 onMounted(() => {
     const containerElement = containerRef.value;
@@ -379,6 +391,11 @@ watch(rightImageRef, () => {
     if (rightImageRef.value?.complete) rightImgLoaded.value = true
 });
 
+// since hover is the only listener set on mount, we need to rerender component if the value changes
+watch(hover, () => {
+    forceRenderHover()
+})
+
 // Calculate container height
 watch(
     [() => containerWidth.value, () => leftImgLoaded.value, () => rightImgLoaded.value],
@@ -398,9 +415,9 @@ watch(
 
 <template>
     <div data-testid="skeleton" v-if="skeleton && !allImagesLoaded" :style="containerStyle" v-html="skeleton"></div>
-    <div ref="containerRef" :id="componentId" @click="handleOnClick" @touchstart="startSliding" @touchend="finishSliding"
-        @focusin="handleFocusIn" @focusout="handleFocusOut" @mousedown="startSliding" @mouseup="finishSliding"
-        class="container" tabindex="0" data-testid="container" :style="containerStyle">
+    <div ref="containerRef" :id="componentId" @click="handleOnClick" @touchstart="startSliding"
+        @touchend="finishSliding" @focusin="handleFocusIn" @focusout="handleFocusOut" @mousedown="startSliding"
+        @mouseup="finishSliding" class="container" tabindex="0" data-testid="container" :style="containerStyle">
         <img class="right-image" @load="rightImgLoaded = true" :alt="rightImageAlt" data-testid="right-image"
             ref="rightImageRef" :src="rightImage" :style="rightImageStyle">
         <img class="left-image" @load="leftImgLoaded = true" :alt="leftImageAlt" data-testid="left-image" ref="leftImageRef"
