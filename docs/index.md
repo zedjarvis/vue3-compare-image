@@ -3,9 +3,8 @@
 layout: home
 
 hero:
-  name: "Vue3 Compare Image"
-  text: "A Vue 3 component to compare and slide between two images, supporting vertical and horizontal comparison modes."
-  tagline: My great project tagline
+  name: "Vue 3 Compare Image"
+  tagline: A Vue 3 component to compare and slide between two images, supporting vertical and horizontal comparison modes and Keyboard navigation for accessibility.
   actions:
     - theme: brand
       text: Markdown Examples
@@ -15,11 +14,17 @@ hero:
       link: /api-examples
 
 features:
-  - title: Feature A
+  - title: Documentation
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
+  - title: Simplicity
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
+  - title: Accessibility
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Responsive
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Fully Typescript
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Horizontal & Vertical comparison
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
 
