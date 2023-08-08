@@ -1,10 +1,5 @@
-import type { App } from "vue";
-import VueCompareImage, {type Props} from "./components/VueCompareImage.vue";
+import type { DefineComponent } from "vue";
+import { VueCompareImage } from "./components";
 
-export default {
-    install: (app: App) => {
-        app.component('VueCompareImage', VueCompareImage);
-    }
-};
 
-export { VueCompareImage, type Props };
+export default VueCompareImage as unknown as DefineComponent<typeof VueCompareImage, {}, {}>
