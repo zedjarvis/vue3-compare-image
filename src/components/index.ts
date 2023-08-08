@@ -1,1 +1,1 @@
-export { default as _VueCompareImage } from './VueCompareImage.vue'
+export { default as VueCompareImage } from './VueCompareImage.vue'
