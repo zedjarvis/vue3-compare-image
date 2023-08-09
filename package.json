@@ -54,7 +54,9 @@
     "format": "prettier --write src/",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "core-js": "^3.31.1"
@@ -64,6 +66,13 @@
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
+    "@storybook/addon-essentials": "^7.2.1",
+    "@storybook/addon-interactions": "^7.2.1",
+    "@storybook/addon-links": "^7.2.1",
+    "@storybook/blocks": "^7.2.1",
+    "@storybook/testing-library": "^0.2.0",
+    "@storybook/vue3": "^7.2.1",
+    "@storybook/vue3-vite": "^7.2.1",
     "@tsconfig/node18": "^18.2.0",
     "@types/jsdom": "^21.1.1",
     "@types/node": "^20.4.5",
@@ -74,13 +83,17 @@
     "@vue/test-utils": "^2.3.2",
     "@vue/tsconfig": "^0.4.0",
     "eslint": "^8.39.0",
+    "eslint-plugin-storybook": "^0.6.13",
     "eslint-plugin-vue": "^9.11.0",
     "jsdom": "^22.1.0",
     "npm-run-all": "^4.1.5",
     "path": "^0.12.7",
     "prettier": "^3.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "rollup-plugin-typescript2": "^0.35.0",
     "sass": "^1.64.1",
+    "storybook": "^7.2.1",
     "typescript": "~5.1.6",
     "vite": "^4.4.7",
     "vite-plugin-dts": "^3.3.1",
