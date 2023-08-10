@@ -4,13 +4,15 @@
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
-    "allowJs": true,
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "dist",
+    "sourceMap": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "declaration": true,
     "outDir": "dist",
-    "declarationDir": "dist",
     "baseUrl": ".",
     "paths": {
       "@/*": [

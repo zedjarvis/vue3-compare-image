@@ -42,6 +42,12 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -65,6 +71,7 @@
     "vue": "^3.0.11"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.40.2",
     "@rushstack/eslint-patch": "^1.2.0",
     "@storybook/addon-essentials": "^7.2.1",
     "@storybook/addon-interactions": "^7.2.1",
@@ -82,10 +89,11 @@
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/test-utils": "^2.3.2",
     "@vue/tsconfig": "^0.4.0",
-    "eslint": "^8.39.0",
+    "eslint": "^8.46.0",
     "eslint-plugin-storybook": "^0.6.13",
     "eslint-plugin-vue": "^9.11.0",
     "jsdom": "^22.1.0",
+    "lint-staged": "^13.2.3",
     "npm-run-all": "^4.1.5",
     "path": "^0.12.7",
     "prettier": "^3.0.0",
@@ -93,6 +101,7 @@
     "react-dom": "^18.2.0",
     "rollup-plugin-typescript2": "^0.35.0",
     "sass": "^1.64.1",
+    "simple-git-hooks": "^2.9.0",
     "storybook": "^7.2.1",
     "typescript": "~5.1.6",
     "vite": "^4.4.7",

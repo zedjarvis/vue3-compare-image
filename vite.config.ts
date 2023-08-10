@@ -8,10 +8,6 @@ import dts from "vite-plugin-dts"
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
-    dts({
-      insertTypesEntry: true,
-    }),
     typescript2({
       check: false,
       include: ["src/components/**/*.vue"],
@@ -24,14 +20,18 @@ export default defineConfig({
         },
       },
       exclude: ["vite.config.ts"]
-    })
+    }),
+    vue(),
+    dts({
+      insertTypesEntry: true,
+    }),
   ],
   build: {
     cssCodeSplit: false,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: "VueCompareImage",
-      formats: ["es", "cjs", "umd"],
+      formats: ["es", "umd"],
       fileName: format => `vue3-compare-image.${format}.js`,
     },
     rollupOptions: {
