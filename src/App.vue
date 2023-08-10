@@ -3,6 +3,7 @@
 import { ref } from "vue";
 
 import { VueCompareImage } from "./components"
+
 // cassets
 import cat1 from "/src/assets/cat1.jpg";
 import cat2 from "/src/assets/cat2.jpg";
