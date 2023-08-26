@@ -11,11 +11,15 @@ A Vue 3 component to compare and slide between two images, supports vertical and
 ## Features
 
 - Simple
+- Accessibility
+- Fully Typescript
 - Responsive (fit to the parent width)
 - Size difference between two images handled correctly. Element size determined by following two factors:
   - width of the parent
   - right image's aspect ratio
 - Horizontal & Vertical comparison
+- Keyboard navigation
+
 
 ## How to use
 
@@ -32,7 +36,7 @@ npm install --save vue3-compare-image
 Globally:
 
 ```js
-import VueCompareImage from "vue3-compare-image"
+import VueCompareImage from 'vue3-compare-image'
 
 const app = createApp(App)
 app.use(VueCompareImage)
@@ -40,17 +44,24 @@ app.use(VueCompareImage)
 app.mount('#app')
 ```
 
+If Installed globaly, reference type in tsconfig or .d.ts file to get props autocompletion
+
+eg in .d.ts
+
+```ts
+/// <reference types="vue3-compare-image/client" />
+```
 
 
 In your component file:
 
 ```js
-import { VueCompareImage } from "vue3-compare-image"
+import { VueCompareImage } from 'vue3-compare-image'
 
 export default {
   name: 'app',
   components: { VueCompareImage },
-};
+}
 ```
 
 ```xml

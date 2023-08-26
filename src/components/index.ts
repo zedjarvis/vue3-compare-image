@@ -1,1 +1,3 @@
-export { default as VueCompareImage } from './VueCompareImage.vue'
+import VueCompareImage from './VueCompareImage.vue'
+
+export { VueCompareImage }
