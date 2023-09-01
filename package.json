@@ -1,6 +1,8 @@
 {
   "name": "vue3-compare-image",
   "version": "1.1.1",
+  "type": "module",
+  "private": false,
   "packageManager": "pnpm@8.6.5",
   "description": "A Vue 3 component to compare and slide between two images, supports vertical and horizontal modes, and Keyboard for accessibility.",
   "author": "Cedrouseroll Omondi <omondicedo@gmail.com>",
@@ -28,11 +30,6 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
-    },
-    "./components": {
-      "types": "./dist/components/index.d.ts",
-      "require": "./dist/components/index.js",
-      "import": "./dist/components/index.mjs"
     }
   },
   "main": "./dist/index.js",
@@ -59,7 +56,10 @@
     "dev:build": "vite build dev",
     "dev:preview": "vite preview dev",
     "lint": "eslint .",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
@@ -74,6 +74,8 @@
     "typescript": "^5.1.6",
     "unbuild": "2.0.0-rc.0",
     "vite": "^4.4.6",
+    "vitepress": "1.0.0-rc.4",
+    "vitest": "^0.34.3",
     "vue": "^3.3.4"
   }
 }
