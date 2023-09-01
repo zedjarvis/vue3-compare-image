@@ -7,9 +7,6 @@ import './style.css'
 import type { CSSProperties } from 'vue'
 import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
 
-// composables
-import { useEventListener } from '@vueuse/core'
-
 // prop types
 export interface Props {
   aspectRatio?: 'taller' | 'wider'
@@ -234,10 +231,8 @@ function startSliding(e: MouseEvent | TouchEvent | KeyboardEvent) {
 
   // if (keyboard.value) window.addEventListener('keydown', handleKeyDown)
 
-  useEventListener(window, 'mousemove', handleSliding)
-  useEventListener(window, 'touchmove', handleSliding)
-  // window.addEventListener('mousemove', handleSliding)
-  // window.addEventListener('touchmove', handleSliding)
+  window.addEventListener('mousemove', handleSliding)
+  window.addEventListener('touchmove', handleSliding)
 }
 
 function finishSliding() {
