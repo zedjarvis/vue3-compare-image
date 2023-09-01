@@ -57,9 +57,12 @@
     "dev:preview": "vite preview dev",
     "lint": "eslint .",
     "prepublishOnly": "pnpm build",
+    "release": "pnpm test && changelogen --release && npm publish && git push --follow-tags",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "test": "pnpm lint && pnpm test:types && vitest run --coverage",
+    "typecheck": "vue-tsc --noEmit --skipLibCheck"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
@@ -69,13 +72,22 @@
     "@types/node": "^20.4.3",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/tsconfig": "^0.4.0",
-    "@vueuse/core": "^10.4.0",
+    "bumpp": "^9.2.0",
+    "changelogen": "^0.5.5",
     "eslint": "^8.45.0",
+    "lint-staged": "^14.0.1",
+    "simple-git-hooks": "^2.9.0",
     "typescript": "^5.1.6",
     "unbuild": "2.0.0-rc.0",
     "vite": "^4.4.6",
     "vitepress": "1.0.0-rc.4",
     "vitest": "^0.34.3",
     "vue": "^3.3.4"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   }
 }
