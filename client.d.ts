@@ -7,6 +7,6 @@ export { }
 
 declare module 'vue' {
   export interface GlobalComponents {
-    VueCompareImage: typeof import('./dist/VueCompareImage.vue')['default']
+    VueCompareImage: typeof import('./dist/components/VueCompareImage.vue')['default']
   }
 }
