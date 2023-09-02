@@ -69,11 +69,15 @@ const containerHeight = ref(0)
 const leftImgLoaded = ref(false)
 const rightImgLoaded = ref(false)
 const isSliding = ref(false)
-const leftImageClip = ref(sliderPositionPercentage.value)
-const rightImageClip = ref(sliderPositionPercentage.value)
 
 // computed refs
 const allImagesLoaded = computed(() => leftImgLoaded.value && rightImgLoaded.value)
+// Introduce refs(rightImageClip|leftImageClip) to correct bug caused when shifting from deprecated
+// css property 'clip' to 'clipPath'. clip-path:inset works as paddings or margin
+// so when right image clip reduces, left image clip has to increase for the comparison
+// effect to work
+const rightImageClip = computed(() => sliderPosition.value)
+const leftImageClip = computed(() => 1 - sliderPosition.value)
 
 // computed styles
 const containerStyle = computed((): CSSProperties => {
@@ -206,12 +210,6 @@ function handleSliding(event: MouseEvent | TouchEvent | KeyboardEvent) {
     pos = maxPos
 
   sliderPosition.value = horizontal ? pos / containerWidth.value : pos / containerHeight.value
-  // Introduce vars(rightImageClip|leftImageClip) to correct bug caused when shifting from deprecated
-  // css property 'clip' to 'clipPath'. clip-path:inset works as paddings or margin
-  // so when right image clip reduces, left image clip has to increase for the comparison
-  // effect to work
-  rightImageClip.value = sliderPosition.value
-  leftImageClip.value = 1 - sliderPosition.value
 
   if (onSliderPositionChange.value)
     onSliderPositionChange.value(horizontal ? pos / containerWidth.value : pos / containerHeight.value)
@@ -230,8 +228,6 @@ function startSliding(e: MouseEvent | TouchEvent | KeyboardEvent) {
   // Slide the image even if you just click or tap (not drag)
   if (slideOnClick.value)
     handleSliding(e)
-
-  // if (keyboard.value) window.addEventListener('keydown', handleKeyDown)
 
   window.addEventListener('mousemove', handleSliding)
   window.addEventListener('touchmove', handleSliding)
@@ -272,55 +268,31 @@ function handleOnClickOutside(event: KeyboardEvent | MouseEvent) {
 function handleKeyDown(e: KeyboardEvent) {
   if (e.key === 'ArrowDown' && !horizontal) {
     e.preventDefault()
-    if ((sliderPosition.value + keyboardStep.value) > 1) {
+    if ((sliderPosition.value + keyboardStep.value) > 1)
       sliderPosition.value = 1
-      rightImageClip.value = sliderPosition.value
-      leftImageClip.value = 1 - rightImageClip.value
-    }
-    else {
+    else
       sliderPosition.value += keyboardStep.value
-      rightImageClip.value = sliderPosition.value
-      leftImageClip.value = 1 - rightImageClip.value
-    }
   }
   else if (e.key === 'ArrowUp' && !horizontal) {
     e.preventDefault()
-    if ((sliderPosition.value - keyboardStep.value) < 0) {
+    if ((sliderPosition.value - keyboardStep.value) < 0)
       sliderPosition.value = 0
-      rightImageClip.value = sliderPosition.value
-      leftImageClip.value = 1 - rightImageClip.value
-    }
-    else {
+    else
       sliderPosition.value -= keyboardStep.value
-      rightImageClip.value = sliderPosition.value
-      leftImageClip.value = 1 - rightImageClip.value
-    }
   }
   else if (e.key === 'ArrowLeft' && horizontal) {
     e.preventDefault()
-    if ((sliderPosition.value - keyboardStep.value) < 0) {
+    if ((sliderPosition.value - keyboardStep.value) < 0)
       sliderPosition.value = 0
-      rightImageClip.value = sliderPosition.value
-      leftImageClip.value = 1 - rightImageClip.value
-    }
-    else {
+    else
       sliderPosition.value -= keyboardStep.value
-      rightImageClip.value = sliderPosition.value
-      leftImageClip.value = 1 - rightImageClip.value
-    }
   }
   else if (e.key === 'ArrowRight' && horizontal) {
     e.preventDefault()
-    if ((sliderPosition.value + keyboardStep.value) > 1) {
+    if ((sliderPosition.value + keyboardStep.value) > 1)
       sliderPosition.value = 1
-      rightImageClip.value = sliderPosition.value
-      leftImageClip.value = 1 - rightImageClip.value
-    }
-    else {
+    else
       sliderPosition.value += keyboardStep.value
-      rightImageClip.value = sliderPosition.value
-      leftImageClip.value = 1 - rightImageClip.value
-    }
   }
   else {
     // do something
@@ -357,7 +329,7 @@ onMounted(() => {
   const containerElement = containerRef.value
   // had to include this here, binding it with the container with the if hover prop doesn't work for some reason
   if (props.hover) {
-    containerElement?.addEventListener('mousemove', handleSliding) // 03
+    containerElement?.addEventListener('mousemove', startSliding) // 03
     containerElement?.addEventListener('mouseleave', finishSliding) // 04
   }
 
@@ -367,7 +339,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   const containerElement = containerRef.value
 
-  containerElement?.removeEventListener('mousemove', handleSliding)
+  containerElement?.removeEventListener('mousemove', startSliding)
   containerElement?.removeEventListener('mouseleave', finishSliding)
   window.removeEventListener('keydown', handleKeyDown)
   window.removeEventListener('click', handleOnClickOutside)
