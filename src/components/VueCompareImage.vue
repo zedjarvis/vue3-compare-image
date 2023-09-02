@@ -51,6 +51,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   (e: 'slideStart', pos: number): void
   (e: 'slideEnd', pos: number): void
+  (e: 'isSliding', state: boolean): void
 }>()
 
 // variables
@@ -219,6 +220,7 @@ function handleSliding(event: MouseEvent | TouchEvent | KeyboardEvent) {
 function startSliding(e: MouseEvent | TouchEvent | KeyboardEvent) {
   isSliding.value = true
   emit('slideStart', sliderPosition.value)
+  emit('isSliding', isSliding.value)
 
   if (!horizontal)
     e.preventDefault() // prevent all default + mobile scrolling if vertical
@@ -238,6 +240,8 @@ function startSliding(e: MouseEvent | TouchEvent | KeyboardEvent) {
 function finishSliding() {
   isSliding.value = false
   emit('slideEnd', sliderPosition.value)
+  emit('isSliding', isSliding.value)
+
   window.removeEventListener('mousemove', handleSliding)
   window.removeEventListener('touchmove', handleSliding)
 }
@@ -328,11 +332,11 @@ function forceRenderHover(): void {
   instance?.proxy?.$forceUpdate()
   const containerElement = containerRef.value
   if (props.hover) {
-    containerElement?.addEventListener('mousemove', handleSliding) // 03
+    containerElement?.addEventListener('mousemove', startSliding) // 03
     containerElement?.addEventListener('mouseleave', finishSliding) // 04
   }
   else {
-    containerElement?.removeEventListener('mousemove', handleSliding) // 03
+    containerElement?.removeEventListener('mousemove', startSliding) // 03
     containerElement?.removeEventListener('mouseleave', finishSliding) // 04
   }
 }
@@ -408,7 +412,7 @@ watch(
   <div v-if="skeleton && !allImagesLoaded" data-testid="skeleton" :style="containerStyle" v-html="skeleton" />
   <div
     v-else
-    :id="componentId" ref="containerRef" class="vci--container" tabindex="0" data-testid="container" :style="containerStyle"
+    :id="componentId" ref="containerRef" class="vci--container" tabindex="0" data-testid="vci-container" :style="containerStyle"
     @click="handleOnClick" @touchstart="startSliding" @touchend="finishSliding" @focusin="handleFocusIn"
     @focusout="handleFocusOut" @mousedown="startSliding" @mouseup="finishSliding"
   >
