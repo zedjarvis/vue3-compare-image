@@ -10,13 +10,13 @@ export default defineConfig({
   lang: 'en-US',
   title: 'Vue3 Compare Image',
   description: 'A Simple Vue 3 component to compare two images with a slider, supports vertical and horizontal modes, and Keyboard for accessibility.',
-  head: [['link', { rel: 'icon', href: '/vue3-compare-image/favicon.ico' }]],
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   markdown: {
     lineNumbers: true,
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    logo: './assets/logo.png',
+    logo: '/logo.png',
     search: {
       provider: 'local',
     },
