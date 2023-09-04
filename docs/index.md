@@ -9,19 +9,28 @@ hero:
   actions:
     - theme: brand
       text: Quick Start →
-      link: /markdown-examples
+      link: /getting-started
     - theme: alt
       text: View on GitHub
       link: https://github.com/zedjarvis/vue3-compare-image
+  
 
 features:
-  - title: Up to Date
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - title: Simple API
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    details: Setup and usage is straightforward.
+    icon: 🛠️
+  - title: Accessibility
+    details: Easily navigate and interact with the component using a keyboard.
+    icon: 🌍 # Accessibility icon
   - title: Responsive
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  
+    details: The component dynamically adapts to the parent container's size.
+    icon: 👌 # Responsive icon
+  - title: Type Strong
+    details: Written in Vue 3 with TypeScript for a robust developer experience.
+    icon: 🦾  # TypeScript icon
+  - title: Customizable
+    details: Override component CSS variables to match your project's style.
+    icon: 🎨  # Customizability icon
+
 lastUpdated: true
 ---
-

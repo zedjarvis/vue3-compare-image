@@ -11,17 +11,22 @@ export default defineConfig({
   title: 'Vue3 Compare Image',
   description: 'A Simple Vue 3 component to compare two images with a slider, supports vertical and horizontal modes, and Keyboard for accessibility.',
   head: [['link', { rel: 'icon', href: '/vue3-compare-image/favicon.ico' }]],
+  markdown: {
+    lineNumbers: true,
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: './assets/logo.png',
+    search: {
+      provider: 'local',
+    },
     nav: [
-      { text: 'Home', link: '/' },
       {
         text: 'Guide',
         items: [
-          { text: 'Getting Started', link: '/markdown-examples' },
-          { text: 'Examples', link: '/markdown-examples' },
-          { text: 'API', link: '/markdown-examples' },
+          { text: 'Getting Started', link: '/getting-started' },
+          { text: 'Examples', link: '/examples' },
+          { text: 'API Reference', link: '/markdown-examples' },
         ],
       },
       {
@@ -35,10 +40,37 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Getting Started',
+        text: 'Introduction',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' },
+          {
+            text: 'Getting Started',
+            collapsed: false,
+            items: [
+              {
+                text: 'Installation',
+                link: '/getting-started#installation',
+                items: [
+                  { text: 'Global', link: '/getting-started#global' },
+                  { text: 'Component', link: '/getting-started#component' },
+                ],
+              },
+            ],
+          },
+          {
+            text: 'Examples',
+            items: [
+              { text: 'Simple usage', link: '/examples#simple-component' },
+              { text: 'Custom handle', link: '/examples#custom-handle' },
+              { text: 'Emmitted events', link: '/examples#emmitted-events' },
+            ],
+          },
+          {
+            text: 'API Reference',
+            items: [
+              { text: 'Props', link: '/api-reference#props' },
+              { text: 'Events', link: '/api-reference#events' },
+            ],
+          },
         ],
       },
     ],
@@ -46,5 +78,9 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/zedjarvis/vue3-compare-image' },
     ],
+
+    footer: {
+      copyright: 'Copyright © Cedrouseroll',
+    },
   },
 })
