@@ -10,6 +10,7 @@ A Vue 3 component to compare and slide between two images, supports vertical and
 
 ## Features
 
+- [Documentation](https://zedjarvis.github.io/vue3-compare-image/)
 - Simple
 - Accessibility
 - Fully Typescript
