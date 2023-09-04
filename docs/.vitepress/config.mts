@@ -26,7 +26,7 @@ export default defineConfig({
         items: [
           { text: 'Getting Started', link: '/getting-started' },
           { text: 'Examples', link: '/examples' },
-          { text: 'API Reference', link: '/markdown-examples' },
+          { text: 'API Reference', link: '/api-reference' },
         ],
       },
       {
