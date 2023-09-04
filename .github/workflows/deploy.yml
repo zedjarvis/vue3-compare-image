@@ -48,10 +48,12 @@ jobs:
         run: |
           pnpm docs:build
           touch docs/.vitepress/dist/.nojekyll
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v3
         with:
+          name: production-files
           path: docs/.vitepress/dist
+          if-no-files-found: error
 
   # Deployment job
   deploy:
@@ -62,6 +64,15 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: production-files
+          path: docs/.vitepress/dist
+
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/.vitepress/dist
