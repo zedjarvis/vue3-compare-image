@@ -51,20 +51,8 @@ export default defineConfig({
         items: [
           { text: 'Installation', link: '/getting-started#installation' },
           {
-            text: 'Setup',
-            items: [
-              { text: 'Global', link: '/getting-started#global' },
-              { text: 'Component', link: '/getting-started#component' },
-            ],
-          },
-          {
             text: 'Examples',
-            collapsed: true,
-            items: [
-              { text: 'Simple usage', link: '/examples#simple-component' },
-              { text: 'Custom handle', link: '/examples#custom-handle' },
-              { text: 'Event emmision', link: '/examples#emmitted-events' },
-            ],
+            link: '/examples',
           },
           {
             text: 'API Reference', link: '/api-reference',
