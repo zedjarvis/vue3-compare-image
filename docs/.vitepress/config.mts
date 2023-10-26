@@ -6,7 +6,7 @@ export default defineConfig({
   sitemap: {
     hostname: 'https://zedjarvis.github.io/vue3-compare-image/',
   },
-  base: '/vue3-comapre-image/',
+  base: '/',
   lang: 'en-US',
   title: 'Vue3 Compare Image',
   description: 'A Simple Vue 3 component to compare two images with a slider, supports vertical and horizontal modes, and Keyboard for accessibility.',
