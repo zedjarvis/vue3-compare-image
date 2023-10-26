@@ -34,3 +34,8 @@ outline: deep
 
 ## Events
 
+| Name        |      Description     |
+| ------------- | :-----------: |
+| slideStart      | When sliding has starts |
+| slideEnd      |   When sliding ends    |
+| isSliding |   `true` when sliding    |

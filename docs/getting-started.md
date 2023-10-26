@@ -23,7 +23,6 @@ yarn add vue3-compare-image
 pnpm add vue3-compare-image
 ```
 :::
-## Usage
 
 ## Global
 

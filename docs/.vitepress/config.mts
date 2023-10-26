@@ -6,7 +6,7 @@ export default defineConfig({
   sitemap: {
     hostname: 'https://zedjarvis.github.io/vue3-compare-image/',
   },
-  base: '/',
+  base: '/vue3-comapre-image/',
   lang: 'en-US',
   title: 'Vue3 Compare Image',
   description: 'A Simple Vue 3 component to compare two images with a slider, supports vertical and horizontal modes, and Keyboard for accessibility.',
@@ -16,6 +16,13 @@ export default defineConfig({
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    lastUpdated: {
+      text: 'Updated on',
+      formatOptions: {
+        dateStyle: 'full',
+        timeStyle: 'medium',
+      },
+    },
     logo: '/logo.png',
     search: {
       provider: 'local',
@@ -40,36 +47,27 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Introduction',
+        text: 'Getting Started',
         items: [
+          { text: 'Installation', link: '/getting-started#installation' },
           {
-            text: 'Getting Started',
-            collapsed: false,
+            text: 'Setup',
             items: [
-              {
-                text: 'Installation',
-                link: '/getting-started#installation',
-                items: [
-                  { text: 'Global', link: '/getting-started#global' },
-                  { text: 'Component', link: '/getting-started#component' },
-                ],
-              },
+              { text: 'Global', link: '/getting-started#global' },
+              { text: 'Component', link: '/getting-started#component' },
             ],
           },
           {
             text: 'Examples',
+            collapsed: true,
             items: [
               { text: 'Simple usage', link: '/examples#simple-component' },
               { text: 'Custom handle', link: '/examples#custom-handle' },
-              { text: 'Emmitted events', link: '/examples#emmitted-events' },
+              { text: 'Event emmision', link: '/examples#emmitted-events' },
             ],
           },
           {
-            text: 'API Reference',
-            items: [
-              { text: 'Props', link: '/api-reference#props' },
-              { text: 'Events', link: '/api-reference#events' },
-            ],
+            text: 'API Reference', link: '/api-reference',
           },
         ],
       },

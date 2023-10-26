@@ -31,7 +31,6 @@ function slideCallback(state: boolean) {
   sliding.value = state
 }
 </script>
-# Usage Examples
 
 ## Simple component
 
