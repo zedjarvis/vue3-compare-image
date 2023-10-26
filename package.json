@@ -1,7 +1,7 @@
 {
   "name": "vue3-compare-image",
-  "version": "1.1.1",
   "type": "module",
+  "version": "1.1.1",
   "private": false,
   "packageManager": "pnpm@8.6.5",
   "description": "A Vue 3 component to compare and slide between two images, supports vertical and horizontal modes, and Keyboard for accessibility.",
@@ -9,11 +9,11 @@
   "license": "MIT",
   "readme": "./README.md",
   "homepage": "https://github.com/zedjarvis/vue3-compare-image#readme",
-  "bugs": "https://github.com/zedjarvis/vue3-compare-image/issues",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zedjarvis/vue3-compare-image"
   },
+  "bugs": "https://github.com/zedjarvis/vue3-compare-image/issues",
   "keywords": [
     "vue3 compare image",
     "picture comparison",
@@ -27,9 +27,9 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     }
   },
   "main": "./dist/index.js",
@@ -67,10 +67,14 @@
   "peerDependencies": {
     "vue": "^3.2.0"
   },
+  "dependencies": {
+    "@vueuse/core": "^10.5.0"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
     "@types/node": "^20.4.3",
     "@vitejs/plugin-vue": "^4.2.3",
+    "@vue/test-utils": "^2.4.1",
     "@vue/tsconfig": "^0.4.0",
     "bumpp": "^9.2.0",
     "changelogen": "^0.5.5",
