@@ -66,7 +66,7 @@ export default defineConfig({
     ],
 
     footer: {
-      copyright: 'Copyright © Cedrouseroll',
+      copyright: 'Made with ❤️ by Cedrouseroll Omondi',
     },
   },
 })
