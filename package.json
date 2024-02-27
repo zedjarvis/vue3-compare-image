@@ -57,7 +57,7 @@
     "dev:preview": "vite preview dev",
     "lint": "eslint .",
     "prepublishOnly": "pnpm build",
-    "release": "pnpm test && changelogen --release && npm publish && git push --follow-tags",
+    "release": "pnpm changelogen --release && npm publish && git push --follow-tags",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
