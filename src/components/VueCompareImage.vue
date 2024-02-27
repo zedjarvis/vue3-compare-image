@@ -309,7 +309,8 @@ function forceRenderHover(): void {
   }
   else {
     containerElement?.removeEventListener('mousemove', startSliding) // 03
-    containerElement?.removeEventListener('mouseleave', finishSliding) // 04
+    // containerElement?.removeEventListener('mouseleave', finishSliding) // 04
+    // containerElement?.addEventListener('mouseleave', finishSliding)
   }
 }
 
