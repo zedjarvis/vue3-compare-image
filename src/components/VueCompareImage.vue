@@ -103,7 +103,7 @@ const leftImageStyle = computed((): CSSProperties => {
 
 const sliderStyle = computed((): CSSProperties => {
   return {
-    cursor: !hover.value && horizontal ? 'ew-resize' : !hover.value && !horizontal ? 'ns-resize' : undefined,
+    cursor: !hover.value && horizontal ? 'ew-resize !important' : !hover.value && !horizontal ? 'ns-resize !important' : undefined,
     flexDirection: horizontal ? 'column' : 'row',
     height: horizontal ? '100%' : `${handleSize.value}px`,
     left: horizontal ? `${containerWidth.value * sliderPosition.value - handleSize.value / 2}px` : '0',
@@ -262,6 +262,7 @@ function handleOnClickOutside(event: KeyboardEvent | MouseEvent) {
     // The click is outside the container, remove the event listener
     containerRef.value.blur()
     window.removeEventListener('keydown', handleKeyDown)
+    finishSliding()
   }
 }
 
@@ -334,6 +335,7 @@ onMounted(() => {
   }
 
   window.addEventListener('click', handleOnClickOutside)
+  containerElement?.addEventListener('mouseleave', finishSliding)
 })
 
 onBeforeUnmount(() => {
@@ -383,10 +385,9 @@ watch(
 <template>
   <div v-if="skeleton && !allImagesLoaded" data-testid="skeleton" :style="containerStyle" v-html="skeleton" />
   <div
-    v-else
-    :id="componentId" ref="containerRef" class="vci--container" tabindex="0" data-testid="vci-container" :style="containerStyle"
-    @click="handleOnClick" @touchstart="startSliding" @touchend="finishSliding" @focusin="handleFocusIn"
-    @focusout="handleFocusOut" @mousedown="startSliding" @mouseup="finishSliding"
+    v-else :id="componentId" ref="containerRef" class="vci--container" tabindex="0" data-testid="vci-container"
+    :style="containerStyle" @click="handleOnClick" @touchstart="startSliding" @touchend="finishSliding"
+    @focusin="handleFocusIn" @focusout="handleFocusOut" @mousedown="startSliding" @mouseup="finishSliding"
   >
     <img
       ref="rightImageRef" class="vci--right-image" :alt="rightImageAlt" data-testid="right-image" :src="rightImage"
