@@ -262,7 +262,6 @@ function handleOnClickOutside(event: KeyboardEvent | MouseEvent) {
     // The click is outside the container, remove the event listener
     containerRef.value.blur()
     window.removeEventListener('keydown', handleKeyDown)
-    finishSliding()
   }
 }
 
