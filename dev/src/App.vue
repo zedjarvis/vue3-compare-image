@@ -29,8 +29,9 @@ function slideCallback(state: boolean) {
 
 <template>
   <button @click="hover = !hover">
-    Click me
+    Toggle hover
   </button>
+  <p>isHovering: {{ hover }}</p>
   <p>is sliding: {{ sliding }}</p>
   <div
     class="container"
