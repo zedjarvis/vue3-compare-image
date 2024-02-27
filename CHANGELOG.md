@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.2.1
+
+[compare changes](https://github.com/zedjarvis/vue3-compare-image/compare/v1.2.0...v1.2.1)
+
+### 💅 Refactors
+
+- Package config ([4f68d97](https://github.com/zedjarvis/vue3-compare-image/commit/4f68d97))
+
+### ❤️ Contributors
+
+- Zedjarvis ([@zedjarvis](http://github.com/zedjarvis))
+
 ## v1.2.0
 
 [compare changes](https://github.com/zedjarvis/vue3-compare-image/compare/stable...v1.2.0)
