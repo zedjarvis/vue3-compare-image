@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.2.2
+
+[compare changes](https://github.com/zedjarvis/vue3-compare-image/compare/v1.2.1...v1.2.2)
+
+### 🩹 Fixes
+
+- Toggle hover brings back issue #1 as the component re-renders ([#1](https://github.com/zedjarvis/vue3-compare-image/issues/1))
+
+### ❤️ Contributors
+
+- Zedjarvis ([@zedjarvis](http://github.com/zedjarvis))
+
 ## v1.2.1
 
 [compare changes](https://github.com/zedjarvis/vue3-compare-image/compare/v1.2.0...v1.2.1)

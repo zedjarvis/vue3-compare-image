@@ -1,7 +1,7 @@
 {
   "name": "vue3-compare-image",
   "type": "module",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "private": false,
   "packageManager": "pnpm@8.6.5",
   "description": "A Vue 3 component to compare and slide between two images, supports vertical and horizontal modes, and Keyboard for accessibility.",
