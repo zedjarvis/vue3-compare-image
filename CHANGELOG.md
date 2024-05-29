@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v1.2.5
+
+[compare changes](https://github.com/zedjarvis/vue3-compare-image/compare/v1.2.4...v1.2.5)
+
+### 🩹 Fixes
+
+- Remove mouseleave event on hover toggle that interferes with mouseup ([e24bb9a](https://github.com/zedjarvis/vue3-compare-image/commit/e24bb9a))
+
+### 📖 Documentation
+
+- Update version ([06b7948](https://github.com/zedjarvis/vue3-compare-image/commit/06b7948))
+- Fix getting started link ([14b3631](https://github.com/zedjarvis/vue3-compare-image/commit/14b3631))
+
+### ❤️ Contributors
+
+- Cedrouseroll Omondi ([@zedjarvis](http://github.com/zedjarvis))
+
 ## v1.2.4
 
 [compare changes](https://github.com/zedjarvis/vue3-compare-image/compare/v1.2.3...v1.2.4)
