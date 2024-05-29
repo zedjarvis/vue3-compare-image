@@ -308,12 +308,15 @@ function forceRenderHover(): void {
   instance?.proxy?.$forceUpdate()
   const containerElement = containerRef.value
   if (props.hover) {
-    containerElement?.addEventListener('mousemove', startSliding) // 03
-    containerElement?.addEventListener('mouseleave', finishSliding) // 04
+    containerElement?.addEventListener('mousemove', startSliding)
+    containerElement?.addEventListener('mouseleave', finishSliding)
   }
   else {
-    containerElement?.removeEventListener('mousemove', startSliding) // 03
-    // containerElement?.removeEventListener('mouseleave', finishSliding) // 04
+    containerElement?.removeEventListener('mousemove', startSliding)
+    containerElement?.removeEventListener('mouseleave', finishSliding)
+
+    containerElement?.addEventListener('mouseup', finishSliding)
+    containerElement?.addEventListener('touchend', finishSliding)
     // containerElement?.addEventListener('mouseleave', finishSliding)
   }
 }
