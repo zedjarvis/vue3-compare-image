@@ -1,5 +1,8 @@
 {
   "extends": [
      "@antfu"
-  ]
+  ],
+  "rules": {
+    "semi": "off"
+  }
 }
