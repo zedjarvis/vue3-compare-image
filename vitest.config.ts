@@ -7,7 +7,7 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['html', 'html-spa'],
-      reportsDirectory: './test/coverage',
+      reportsDirectory: './dev/test/coverage',
     },
   },
 })
