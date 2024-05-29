@@ -5,16 +5,22 @@
   "private": false,
   "packageManager": "pnpm@9.1.3",
   "description": "A Vue 3 component to compare and slide between two images, supports vertical and horizontal modes, and Keyboard for accessibility.",
-  "author": "Cedrouseroll Omondi <omondicedo@gmail.com>",
+  "author": {
+    "name": "Cedrouseroll Omondi",
+    "email": "omondicedo@gmail.com",
+    "url": "https://zedjarvis.github.io"
+  },
   "license": "MIT",
   "readme": "./README.md",
-  "homepage": "https://github.com/zedjarvis/vue3-compare-image#readme",
+  "homepage": "https://vue3-compare-image.vercel.app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zedjarvis/vue3-compare-image"
   },
   "bugs": "https://github.com/zedjarvis/vue3-compare-image/issues",
   "keywords": [
+    "vue-3-compare-image",
+    "vue 3 slider",
     "vue3 compare image",
     "picture comparison",
     "image comparison",
