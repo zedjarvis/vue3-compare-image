@@ -12,6 +12,8 @@ import { ref } from "vue"
 // cassets
 import cat1 from "./assets/cat1.jpg"
 import cat2 from "./assets/cat2.jpg"
+import forest1 from "./assets/forest1.jpg"
+import forest2 from "./assets/forest2.jpg"
 
 // components
 import { VueCompareImage } from '../src/components'
@@ -127,7 +129,7 @@ Open browsers console to view event logs.
     style="max-width: 500px; width: auto; height: auto; margin: 50px auto;"
   >
     <VueCompareImage
-      :left-image="cat1" :right-image="cat2" :hover="hover" @is-sliding="slideCallback" @slide-start="startCallback" @slide-end="endCallback"
+      :left-image="forest1" :right-image="forest2" vertical :hover="hover" @is-sliding="slideCallback" @slide-start="startCallback" @slide-end="endCallback"
     />
 </div>
 
@@ -140,7 +142,7 @@ Open browsers console to view event logs.
 <template>
   <div style="max-width: 500px; width: auto; height: auto; margin: 50px auto;">
     <VueCompareImage
-      :left-image="cat1" :right-image="cat2" @is-sliding="slideCallback" @slide-start="startCallback" @slide-end="endCallback"
+      :left-image="forest1" :right-image="forest2" @is-sliding="slideCallback" @slide-start="startCallback" @slide-end="endCallback"
     />
   </div>
 </template>
