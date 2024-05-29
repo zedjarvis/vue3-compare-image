@@ -96,3 +96,12 @@ export default {
 | sliderLineColor          | string                  | `'#ffffff'` | line color of slider                                                                                                  |
 | sliderLineWidth          | number (px)             |      `2`      | line width of slider (by pixel). set `0` to hide slider line.                                                                                       |
 | sliderPositionPercentage | number (float)          |     `0.5`     | Default slider line position (from 0 to 1)                                                                                   |
+
+
+## Events
+
+| Name        |      Description     |
+| ------------- | :-----------: |
+| slideStart      | When sliding has starts |
+| slideEnd      |   When sliding ends    |
+| isSliding |   `true` when sliding    |
