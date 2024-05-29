@@ -231,6 +231,8 @@ function startSliding(e: MouseEvent | TouchEvent | KeyboardEvent) {
 
   window.addEventListener('mousemove', handleSliding)
   window.addEventListener('touchmove', handleSliding)
+  window.addEventListener('mouseup', finishSliding)
+  window.addEventListener('touchend', finishSliding)
 }
 
 function finishSliding() {
@@ -240,6 +242,8 @@ function finishSliding() {
 
   window.removeEventListener('mousemove', handleSliding)
   window.removeEventListener('touchmove', handleSliding)
+  window.removeEventListener('mouseup', finishSliding)
+  window.removeEventListener('touchend', finishSliding)
 }
 
 function handleFocusIn() {
@@ -335,7 +339,7 @@ onMounted(() => {
   }
 
   window.addEventListener('click', handleOnClickOutside)
-  containerElement?.addEventListener('mouseleave', finishSliding)
+  // containerElement?.addEventListener('mouseleave', finishSliding)
 })
 
 onBeforeUnmount(() => {
@@ -345,6 +349,10 @@ onBeforeUnmount(() => {
   containerElement?.removeEventListener('mouseleave', finishSliding)
   window.removeEventListener('keydown', handleKeyDown)
   window.removeEventListener('click', handleOnClickOutside)
+  window.removeEventListener('mousemove', handleSliding)
+  window.removeEventListener('touchmove', handleSliding)
+  window.removeEventListener('mouseup', finishSliding)
+  window.removeEventListener('touchend', finishSliding)
 })
 
 // Watch for changes in leftImage
