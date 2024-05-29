@@ -75,6 +75,10 @@ import { VueCompareImage } from 'vue3-compare-image'
 </template>
 ```
 
-::: tip Note
+::: tip NOTE
 If you import the component on a case by case basis, you don't have to reference its type in any of `*.d.ts` or `tsconfig` files.
+:::
+
+::: warning
+This component should be wrapped inside `<client-only></client-only>` tags incase you are using `SSR`.
 :::
