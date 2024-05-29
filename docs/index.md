@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Quick Start →
-      link: /getting-started
+      link: /getting-started#installation
     - theme: alt
       text: View on GitHub
       link: https://github.com/zedjarvis/vue3-compare-image
