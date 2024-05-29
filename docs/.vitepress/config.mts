@@ -37,7 +37,7 @@ export default defineConfig({
         ],
       },
       {
-        text: 'v1.2.4',
+        text: 'v1.2.5',
         items: [
           { text: 'Changelog', link: 'https://github.com/zedjarvis/vue3-compare-image/blob/main/CHANGELOG.md' },
           { text: 'Contributing', link: 'https://github.com/zedjarvis/vue3-compare-image/blob/main/CONTRIBUTING.md' },
