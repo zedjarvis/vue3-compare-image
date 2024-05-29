@@ -1,6 +1,39 @@
 # Changelog
 
 
+## v1.2.3
+
+[compare changes](https://github.com/zedjarvis/vue3-compare-image/compare/v1.2.2...v1.2.3)
+
+### 🩹 Fixes
+
+- Sliding ends on mouseleave even if mouse is sill pressed ([ce78ec9](https://github.com/zedjarvis/vue3-compare-image/commit/ce78ec9))
+
+### 💅 Refactors
+
+- Use different images in example ([913ec7f](https://github.com/zedjarvis/vue3-compare-image/commit/913ec7f))
+
+### 📖 Documentation
+
+- Update docs ([96b0152](https://github.com/zedjarvis/vue3-compare-image/commit/96b0152))
+- Update readme ([b3b90b2](https://github.com/zedjarvis/vue3-compare-image/commit/b3b90b2))
+
+### 🏡 Chore
+
+- Bump pnpm from 8.6.5 to 9.1.3 ([e135dcc](https://github.com/zedjarvis/vue3-compare-image/commit/e135dcc))
+- Update deps ([6028aed](https://github.com/zedjarvis/vue3-compare-image/commit/6028aed))
+- Update test config ([5acfe6a](https://github.com/zedjarvis/vue3-compare-image/commit/5acfe6a))
+- Update package info ([86bae2c](https://github.com/zedjarvis/vue3-compare-image/commit/86bae2c))
+
+### ✅ Tests
+
+- Update tests ([ff8b55e](https://github.com/zedjarvis/vue3-compare-image/commit/ff8b55e))
+- Fix typo ([da20324](https://github.com/zedjarvis/vue3-compare-image/commit/da20324))
+
+### ❤️ Contributors
+
+- Cedrouseroll Omondi ([@zedjarvis](http://github.com/zedjarvis))
+
 ## v1.2.2
 
 [compare changes](https://github.com/zedjarvis/vue3-compare-image/compare/v1.2.1...v1.2.2)
