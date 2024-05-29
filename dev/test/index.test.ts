@@ -24,8 +24,8 @@ describe('vci tests', async () => {
     const images = wrapper.findAll('img')
 
     expect(images.length).toBe(2)
-    expect(images[0].attributes('src')).toBe('before.jpg')
-    expect(images[1].attributes('src')).toBe('after.jpg')
+    expect(images[0].attributes('src')).toBe(cat1)
+    expect(images[1].attributes('src')).toBe(cat2)
   })
 
   it('should have a draggable handle', async () => {
