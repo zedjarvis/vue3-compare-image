@@ -40,7 +40,7 @@ Globally:
 import VueCompareImage from 'vue3-compare-image'
 
 const app = createApp(App)
-app.use(VueCompareImage)
+app.component('VueCompareImage', VueCompareImage)
 
 app.mount('#app')
 ```
