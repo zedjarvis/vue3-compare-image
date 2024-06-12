@@ -1,22 +1,13 @@
-import { fileURLToPath } from 'node:url'
-import { mergeConfig } from 'vite'
-import { configDefaults, defineConfig } from 'vitest/config'
-import viteConfig from './vite.config'
+import { defineConfig } from 'vitest/config'
 
-export default mergeConfig(
-  viteConfig,
-  defineConfig({
-    test: {
-      coverage: {
-        provider: "v8",
-        reporter: ['text', 'json', 'html'],
-      },
-      environment: 'jsdom',
-      exclude: [...configDefaults.exclude, 'e2e/*'],
-      root: fileURLToPath(new URL('./', import.meta.url)),
-      transformMode: {
-        web: [/\.[jt]sx$/]
-      }
-    }
-  })
-)
+export default defineConfig({
+  test: {
+    exclude: ['node_modules', 'dist'],
+    coverage: {
+      enabled: true,
+      provider: 'v8',
+      reporter: ['html', 'html-spa'],
+      reportsDirectory: './dev/test/coverage',
+    },
+  },
+})

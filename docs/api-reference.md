@@ -1,77 +1,11 @@
-# vue3-compare-image
+---
+outline: deep
+---
 
-
-A Vue 3 component to compare and slide between two images, supports vertical and horizontal modes, and Keyboard for accessibility.
-
-
-> NOTE: This project is a fork of [vue-compare-image](https://github.com/junkboy0315/vue-compare-image) with  Vue 3 support and with all functionalities of [react-compare-image](https://github.com/junkboy0315/react-compare-image) plus Keyboard navigation for accessibility.
-
-![img](https://user-images.githubusercontent.com/10986861/67158760-0f02a480-f377-11e9-9b83-75bc8005693a.gif)
-
-## Features
-
-- [Documentation](https://vue3-compare-image.vercel.app)
-- Simple
-- Accessibility
-- Fully Typescript
-- Responsive (fit to the parent width)
-- Size difference between two images handled correctly. Element size determined by following two factors:
-  - width of the parent
-  - right image's aspect ratio
-- Horizontal & Vertical comparison
-- Keyboard navigation
-
-
-## How to use
-
-In the shell:
-
-```bash
-yarn add vue3-compare-image
-
-// or
-
-npm install --save vue3-compare-image
-```
-
-Globally:
-
-```js
-import VueCompareImage from 'vue3-compare-image'
-
-const app = createApp(App)
-app.component('VueCompareImage', VueCompareImage)
-
-app.mount('#app')
-```
-
-If Installed globaly, reference type in tsconfig or .d.ts file to get props autocompletion
-
-eg in .d.ts
-
-```ts
-/// <reference types="vue3-compare-image/client" />
-```
-
-
-In your component file:
-
-```js
-import { VueCompareImage } from 'vue3-compare-image'
-
-export default {
-  name: 'app',
-  components: { VueCompareImage },
-}
-```
-
-```xml
-<template>
-  <VueCompareImage leftImage="image1.jpg" rightImage="image2.jpg" />;
-</template>
-```
+# API Reference
 
 ## Props
+
 
 | Prop (\* required)       | type                    |   default   | description                                                                                                           |
 | ------------------------ | ----------------------- | :---------: | --------------------------------------------------------------------------------------------------------------------- |

@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "paths": {
+      "vue3-compare-image": ["../src"]
+    }
+  },
+  "include": ["./**/*"]
+}

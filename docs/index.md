@@ -1,30 +1,36 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
+title: Home
 
 hero:
-  name: "Vue 3 Compare Image"
-  tagline: A Vue 3 component to compare and slide between two images, supporting vertical and horizontal comparison modes and Keyboard navigation for accessibility.
+  name: "Vue3 Compare Image"
+  tagline: "A Simple Vue 3 component to compare two images with a slider, supports vertical and horizontal modes, and Keyboard for accessibility."
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Quick Start →
+      link: /getting-started#installation
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: View on GitHub
+      link: https://github.com/zedjarvis/vue3-compare-image
+  
 
 features:
-  - title: Documentation
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Simplicity
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Simple API
+    details: Setup and usage is straightforward.
+    icon: 🛠️
   - title: Accessibility
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    details: Easily navigate and interact with the component using a keyboard.
+    icon: 🌍 # Accessibility icon
   - title: Responsive
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Fully Typescript
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Horizontal & Vertical comparison
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
----
+    details: The component dynamically adapts to the parent container's size.
+    icon: 👌 # Responsive icon
+  - title: Type Strong
+    details: Written in Vue 3 with TypeScript for a robust developer experience.
+    icon: 🦾  # TypeScript icon
+  - title: Customizable
+    details: Override component CSS variables to match your project's style.
+    icon: 🎨  # Customizability icon
 
+lastUpdated: true
+---

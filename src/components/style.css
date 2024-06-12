@@ -1,0 +1,93 @@
+.vci--container {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.vci--right-image {
+  display: flex;
+  position: absolute;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.vci--left-image {
+  display: flex;
+  position: absolute;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.vci--slider {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vci--slider-line {
+  flex: 0 1 auto;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.vci--custom-handle {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 0 auto;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: auto;
+}
+
+.vci--default-handle {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 0 auto;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.vci--left-arrow {
+  height: 0px;
+  width: 0px;
+}
+
+.vci--right-arrow {
+  height: 0px;
+  width: 0px;
+}
+
+.vci--left-label {
+  position: absolute;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  transition: opacity 0.1s ease-out;
+}
+
+.vci--right-label {
+  position: absolute;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  transition: opacity 0.1s ease-out;
+}
+
+.vci--right-label-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.vci--left-label-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
