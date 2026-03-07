@@ -1,6 +1,47 @@
 # Changelog
 
 
+## v1.2.6
+
+[compare changes](https://github.com/zedjarvis/vue3-compare-image/compare/v1.2.5...v1.2.6)
+
+### 🩹 Fixes
+
+- Multiple pnpm version declaration ([1bef850](https://github.com/zedjarvis/vue3-compare-image/commit/1bef850))
+
+### 💅 Refactors
+
+- Update import paths ([8342065](https://github.com/zedjarvis/vue3-compare-image/commit/8342065))
+- Update code quality ([b6456ad](https://github.com/zedjarvis/vue3-compare-image/commit/b6456ad))
+
+### 📖 Documentation
+
+- Bump version to v1.2.5 ([d606532](https://github.com/zedjarvis/vue3-compare-image/commit/d606532))
+- Update docs ([4cf0fea](https://github.com/zedjarvis/vue3-compare-image/commit/4cf0fea))
+- Add conde of conduct ([39ce7df](https://github.com/zedjarvis/vue3-compare-image/commit/39ce7df))
+- Update contribution guide ([60b645c](https://github.com/zedjarvis/vue3-compare-image/commit/60b645c))
+- Update readme ([4bceb89](https://github.com/zedjarvis/vue3-compare-image/commit/4bceb89))
+- Add security.md ([931e662](https://github.com/zedjarvis/vue3-compare-image/commit/931e662))
+
+### 🏡 Chore
+
+- Update ci, release and oss repo setup ([e01ed0f](https://github.com/zedjarvis/vue3-compare-image/commit/e01ed0f))
+- Update ts setup ([75be182](https://github.com/zedjarvis/vue3-compare-image/commit/75be182))
+- Update eslint config ([6deb7d1](https://github.com/zedjarvis/vue3-compare-image/commit/6deb7d1))
+- Minor adjustments ([4757a9a](https://github.com/zedjarvis/vue3-compare-image/commit/4757a9a))
+- Update deps ([ba70b96](https://github.com/zedjarvis/vue3-compare-image/commit/ba70b96))
+- Turn off npm proverance for local builds ([aa41342](https://github.com/zedjarvis/vue3-compare-image/commit/aa41342))
+
+### ✅ Tests
+
+- Update tests ([fa41c97](https://github.com/zedjarvis/vue3-compare-image/commit/fa41c97))
+- Update test config ([18aca06](https://github.com/zedjarvis/vue3-compare-image/commit/18aca06))
+
+### ❤️ Contributors
+
+- Zedjarvis ([@zedjarvis](https://github.com/zedjarvis))
+- Cedrouseroll Omondi ([@zedjarvis](https://github.com/zedjarvis))
+
 ## v1.2.5
 
 [compare changes](https://github.com/zedjarvis/vue3-compare-image/compare/v1.2.4...v1.2.5)
