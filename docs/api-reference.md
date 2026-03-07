@@ -1,4 +1,5 @@
 ---
+title: API Reference
 outline: deep
 ---
 
@@ -6,36 +7,34 @@ outline: deep
 
 ## Props
 
-
-| Prop (\* required)       | type                    |   default   | description                                                                                                           |
-| ------------------------ | ----------------------- | :---------: | --------------------------------------------------------------------------------------------------------------------- |
-| leftImage \*             | string                  |    `null`     | left image's url                                                                                                      |
-| rightImage \*            | string                  |    `null`     | right image's url                                                                                                     |
-| vertical              | boolean | `false`  | Compare images vertically or horizontally                                                      |
-| keyboard              | boolean | `true`  | Allow Keyboard navigation for accessibility                                                     |
-| keyboardStep              | number | `0.01`  | By what percentage should the slider move on keyboard press. between `0` and `1`                                                      |
-| aspectRatio              | `'taller'` or `'wider'` | `'taller'`  | Which to choose if the aspect ratios of the images are different                                                      |
-| handle                   | element                 |    `null`     | Custom handle element. Just pass and empty `<div />` if you want to remove the handle.                                 |
-| handleSize               | number (px)             |     `40`     | diameter of slider handle (by pixel)                                                                                  |
-| hover                    | boolean                 |    `false`    | Whether to slide at hover                                                                                             |
-| slideOnClick                    | boolean                 |    `true`    | Whether to slide on click and drag or just drag.                                                                                             |
-| leftImageAlt             | string                  |    `''`     | alt props for left image                                                                                              |
-| leftImageCss             | object                  |     `{}`     | Additional css for left image                                                                                         |
-| leftImageLabel           | string                  |    `null`     | Label for the image (e.g. `before`)                                                                                   |
-| onSliderPositionChange   | function                |    `null`     | Callback function called each time the slider changes. The position (0 to 1) of the slider is passed as arg           |
-| rightImageAlt            | string                  |    `''`     | alt props for right image                                                                                             |
-| rightImageCss            | object                  |     `{}`      | Additional css for right image                                                                                        |
-| rightImageLabel          | string                  |    `null`     | Label for the image (e.g. `after`)                                                                                    |
-| skeleton                 | element                 |    `null`     | Element displayed while image is loading                                                                              |
-| sliderLineColor          | string                  | `'#ffffff'` | line color of slider                                                                                                  |
-| sliderLineWidth          | number (px)             |      `2`      | line width of slider (by pixel). set `0` to hide slider line.                                                                                       |
-| sliderPositionPercentage | number (float)          |     `0.5`     | Default slider line position (from 0 to 1)                                                                                   |
-
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `leftImage` | `string` | required | Left image URL |
+| `rightImage` | `string` | required | Right image URL |
+| `vertical` | `boolean` | `false` | Enables vertical slider mode |
+| `keyboard` | `boolean` | `false` | Enables arrow-key navigation |
+| `keyboardStep` | `number` | `0.01` | Slider movement amount per key press |
+| `aspectRatio` | `'taller' \| 'wider'` | `'wider'` | Chooses ratio strategy when source images differ |
+| `handle` | `string \| number \| boolean` | `undefined` | Custom handle HTML |
+| `handleSize` | `number` | `40` | Handle size in px |
+| `hover` | `boolean` | `false` | Moves slider on hover |
+| `slideOnClick` | `boolean` | `true` | Slides to click/tap position |
+| `leftImageAlt` | `string` | `''` | Alt text for left image |
+| `rightImageAlt` | `string` | `''` | Alt text for right image |
+| `leftImageCss` | `object` | `{}` | Additional inline styles for left image |
+| `rightImageCss` | `object` | `{}` | Additional inline styles for right image |
+| `leftImageLabel` | `string` | `undefined` | Label shown on left image |
+| `rightImageLabel` | `string` | `undefined` | Label shown on right image |
+| `skeleton` | `string \| number \| boolean` | `undefined` | Loading placeholder HTML |
+| `sliderLineColor` | `string` | `'#ffffff'` | Slider line color |
+| `sliderLineWidth` | `number` | `2` | Slider line width in px |
+| `sliderPositionPercentage` | `number` | `0.5` | Initial slider position (`0` to `1`) |
+| `onSliderPositionChange` | `(position: number) => void` | `undefined` | Callback on every slider position update |
 
 ## Events
 
-| Name        |      Description     |
-| ------------- | :-----------: |
-| slideStart      | When sliding has starts |
-| slideEnd      |   When sliding ends    |
-| isSliding |   `true` when sliding    |
+| Event | Payload | Description |
+| --- | --- | --- |
+| `slideStart` | `number` | Fires when interaction starts |
+| `slideEnd` | `number` | Fires when interaction ends |
+| `isSliding` | `boolean` | Emits current sliding state |

@@ -1,12 +1,38 @@
 :root {
-  --vp-c-brand: #1D9371;
-  --vp-button-brand-bg: #1D9371;
-  --vp-button-brand-hover-bg: #41d1ff;
-  --vp-button-brand-border: #41d1ff;
+  --vp-c-brand: #1d9371;
+  --vp-c-brand-1: #1d9371;
+  --vp-c-brand-2: #15795d;
+  --vp-c-brand-3: #23b188;
+  --vp-button-brand-bg: #1d9371;
+  --vp-button-brand-hover-bg: #23b188;
+  --vp-button-brand-border: #1d9371;
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #1D9371, #41d1ff);
+  --vp-home-hero-name-background: linear-gradient(120deg, #1d9371, #1bb5c9);
 }
 
-*, html, body {
+*,
+html,
+body {
   scroll-behavior: smooth;
+}
+
+.VPHome {
+  background:
+    radial-gradient(900px 260px at 15% -10%, rgb(29 147 113 / 20%), transparent),
+    radial-gradient(900px 260px at 85% -10%, rgb(27 181 201 / 14%), transparent);
+}
+
+.VPFeature {
+  border: 1px solid var(--vp-c-divider);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.VPFeature:hover {
+  border-color: rgb(29 147 113 / 50%);
+  transform: translateY(-2px);
+}
+
+.vp-doc table {
+  display: block;
+  overflow-x: auto;
 }

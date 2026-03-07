@@ -7,13 +7,13 @@ outline: deep
 <script setup lang="ts">
 
 // utilities
-import { ref } from "vue"
+import { ref } from 'vue'
 
 // cassets
-import cat1 from "./assets/cat1.jpg"
-import cat2 from "./assets/cat2.jpg"
-import forest1 from "./assets/forest1.jpg"
-import forest2 from "./assets/forest2.jpg"
+import cat1 from './assets/cat1.jpg'
+import cat2 from './assets/cat2.jpg'
+import forest1 from './assets/forest1.jpg'
+import forest2 from './assets/forest2.jpg'
 
 // components
 import { VueCompareImage } from '../src/components'
@@ -58,11 +58,11 @@ function slideCallback(state: boolean) {
 
 ```vue [script]
 <script setup lang="ts">
-import { VueCompareImage } from 'vue3-compare-image'
-
 // cassets
 import cat1 from '@assets/cat1.jpg'
+
 import cat2 from '@assets/cat2.jpg'
+import { VueCompareImage } from 'vue3-compare-image'
 </script>
 ```
 
@@ -75,7 +75,7 @@ import cat2 from '@assets/cat2.jpg'
 
 ## Custom handle
 
-To use custom handle, Just pass a valid html `<div />` element as handle prop.
+To use custom handle, just pass a valid HTML `<div />` element as the `handle` prop.
 
 In this example, you can also move the slider by pressing keyboard left and right arrow keys.
 <div
@@ -102,11 +102,11 @@ In this example, you can also move the slider by pressing keyboard left and righ
 
 ```vue [script]
 <script setup lang="ts">
-import { VueCompareImage } from 'vue3-compare-image'
-
 // cassets
 import cat1 from '@assets/cat1.jpg'
+
 import cat2 from '@assets/cat2.jpg'
+import { VueCompareImage } from 'vue3-compare-image'
 </script>
 ```
 
@@ -117,13 +117,13 @@ import cat2 from '@assets/cat2.jpg'
 ```
 :::
 
-## Emmitted events
+## Emitted events
 
 <button @click="hover = !hover" v-html="hover ? 'Disable Hover' : 'Enable Hover'" style="border: 1px solid white; padding: 2px 20px"></button>
 
 <p v-html="sliding ? 'Sliding: true' : 'Sliding: false'"></p>
 
-Open browsers console to view event logs.
+Open browser console to view event logs.
 
 <div
     style="max-width: 500px; width: auto; height: auto; margin: 50px auto;"
@@ -150,11 +150,11 @@ Open browsers console to view event logs.
 
 ```vue [script]
 <script setup lang="ts">
-import { VueCompareImage } from 'vue3-compare-image'
-
 // cassets
 import cat1 from '@assets/cat1.jpg'
+
 import cat2 from '@assets/cat2.jpg'
+import { VueCompareImage } from 'vue3-compare-image'
 
 const hover = ref(false)
 const sliding = ref(false)

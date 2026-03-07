@@ -1,31 +1,34 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { defineConfig } from 'vitepress'
 
-// #1D9371
-// https://vitepress.dev/reference/site-config
+const packageJsonPath = resolve(__dirname, '../../package.json')
+const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as { version: string }
+const versionLabel = `v${packageJson.version}`
+
 export default defineConfig({
-  sitemap: {
-    hostname: 'https://zedjarvis.github.io/vue3-compare-image/',
-  },
   base: '/',
   lang: 'en-US',
   title: 'Vue3 Compare Image',
-  description: 'A Simple Vue 3 component to compare two images with a slider, supports vertical and horizontal modes, and Keyboard for accessibility.',
+  description: 'Vue 3 component for before/after image comparison with slider, keyboard support, and vertical mode.',
+  sitemap: {
+    hostname: 'https://vue3-compare-image.vercel.app',
+  },
   head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   markdown: {
     lineNumbers: true,
   },
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
-    lastUpdated: {
-      text: 'Updated on',
-      formatOptions: {
-        dateStyle: 'full',
-        timeStyle: 'medium',
-      },
-    },
     logo: '/logo.png',
     search: {
       provider: 'local',
+    },
+    lastUpdated: {
+      text: 'Updated',
+      formatOptions: {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      },
     },
     nav: [
       {
@@ -37,36 +40,28 @@ export default defineConfig({
         ],
       },
       {
-        text: 'v1.2.5',
+        text: versionLabel,
         items: [
           { text: 'Changelog', link: 'https://github.com/zedjarvis/vue3-compare-image/blob/main/CHANGELOG.md' },
           { text: 'Contributing', link: 'https://github.com/zedjarvis/vue3-compare-image/blob/main/CONTRIBUTING.md' },
         ],
       },
     ],
-
     sidebar: [
       {
-        text: 'Getting Started',
+        text: 'Guide',
         items: [
-          { text: 'Installation', link: '/getting-started#installation' },
-          {
-            text: 'Examples',
-            link: '/examples',
-          },
-          {
-            text: 'API Reference', link: '/api-reference',
-          },
+          { text: 'Getting Started', link: '/getting-started' },
+          { text: 'Examples', link: '/examples' },
+          { text: 'API Reference', link: '/api-reference' },
         ],
       },
     ],
-
     socialLinks: [
       { icon: 'github', link: 'https://github.com/zedjarvis/vue3-compare-image' },
     ],
-
     footer: {
-      copyright: 'Made with ❤️ by Cedrouseroll Omondi',
+      copyright: 'MIT License © Cedrouseroll Omondi',
     },
   },
 })

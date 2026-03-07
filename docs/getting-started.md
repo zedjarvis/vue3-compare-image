@@ -1,84 +1,73 @@
 ---
 title: Getting Started
+outline: deep
 ---
 
-# Vue3 Compare Image
-
-A Simple Vue 3 component to compare two images with a slider, supports vertical and horizontal modes, and Keyboard for accessibility.
-
+# Getting Started
 
 ## Installation
 
 ::: code-group
 
+```bash [pnpm]
+pnpm add vue3-compare-image
+```
+
 ```bash [npm]
-npm install --save vue3-compare-image
+npm i vue3-compare-image
 ```
 
 ```bash [yarn]
 yarn add vue3-compare-image
 ```
-
-```bash [pnpm]
-pnpm add vue3-compare-image
-```
 :::
 
-## Global
+## Register globally
 
-You can import and register the component globally
-
-::: code-group
-
-```ts [main.ts] 1,5
+```ts
+import { createApp } from 'vue'
 import VueCompareImage from 'vue3-compare-image'
+import App from './App.vue'
 
-const app = createApp(App)
-
-app.use(VueCompareImage)
-
-app.mount('#app')
+createApp(App).use(VueCompareImage).mount('#app')
 ```
 
-```ts [*.d.ts]
-/// <reference types="vue3-compare-image/client" />
-```
+## Register locally
 
-```json [tsconfig]
-{
-  "compilerOptions": {
-    "types": ["vue3-compare-image/client"]
-  },
-  "include": ["*.d.ts"]
-}
-```
-:::
-
-## Component
-
-Or use it on a case by case basis
-
-```vue [App.vue]
+```vue
 <script setup lang="ts">
-// cassets
-import cat1 from '@assest/cat2.jpg'
-import cat2 from '@assests/cat2.jpg'
-
-// components
 import { VueCompareImage } from 'vue3-compare-image'
+
+import afterImage from './assets/after.jpg'
+import beforeImage from './assets/before.jpg'
 </script>
 
 <template>
-  <div>
-    <VueCompareImage :left-image="cat1" :right-image="cat2" />
-  </div>
+  <VueCompareImage
+    :left-image="beforeImage"
+    :right-image="afterImage"
+  />
 </template>
 ```
 
-::: tip NOTE
-If you import the component on a case by case basis, you don't have to reference its type in any of `*.d.ts` or `tsconfig` files.
-:::
+## Optional TypeScript reference
 
-::: warning
-This component should be wrapped inside `<client-only></client-only>` tags incase you are using `SSR`.
-:::
+If you register the component globally and want IDE autocompletion:
+
+```ts
+/// <reference types="vue3-compare-image/client" />
+```
+
+Or in `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "types": ["vue3-compare-image/client"]
+  }
+}
+```
+
+## SSR note
+
+If your framework renders on the server, wrap usage in a client-only guard (for example Nuxt's `<ClientOnly>`).
