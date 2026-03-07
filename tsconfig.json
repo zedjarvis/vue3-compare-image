@@ -1,3 +1,17 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json"
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": [
+    "build.config.ts",
+    "client.d.ts",
+    "env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "vitest.config.ts"
+  ],
+  "exclude": [
+    "dev/**",
+    "docs/**",
+    "dist/**",
+    "node_modules/**"
+  ]
 }
