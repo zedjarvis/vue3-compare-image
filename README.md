@@ -10,6 +10,8 @@ Vue 3 component for before/after image comparison with drag, hover mode, keyboar
 
 > This project is a Vue 3-focused fork of [vue-compare-image](https://github.com/junkboy0315/vue-compare-image), with behavior parity improvements inspired by [react-compare-image](https://github.com/junkboy0315/react-compare-image).
 
+![Demo](https://user-images.githubusercontent.com/10986861/67158760-0f02a480-f377-11e9-9b83-75bc8005693a.gif)
+
 ## Features
 
 - Vue 3 + TypeScript
