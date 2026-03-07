@@ -1,11 +1,11 @@
 <!-- eslint-disable no-irregular-whitespace -->
 <script setup lang="ts">
-// styles
-import './style.css'
-
 // utilities
 import type { CSSProperties } from 'vue'
+
 import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
+// styles
+import './style.css'
 
 // prop types
 export interface Props {
@@ -57,10 +57,10 @@ const emit = defineEmits<{
 // variables
 const { aspectRatio, leftImage, leftImageAlt, leftImageLabel, leftImageCss, rightImage, rightImageAlt, rightImageLabel, rightImageCss, hover, handle, handleSize, sliderLineWidth, sliderPositionPercentage, skeleton, sliderLineColor, vertical, onSliderPositionChange, slideOnClick, keyboard, keyboardStep } = toRefs(props)
 
-const componentId = Math.random().toString(36).substr(2, 9)
+const componentId = Math.random().toString(36).slice(2, 11)
 
-const horizontal = !vertical.value
-const containerRef = ref()
+const horizontal = computed(() => !vertical.value)
+const containerRef = ref<HTMLElement | null>(null)
 const rightImageRef = ref<HTMLImageElement | null>(null)
 const leftImageRef = ref<HTMLImageElement | null>(null)
 const sliderPosition = ref(sliderPositionPercentage.value)
@@ -69,6 +69,7 @@ const containerHeight = ref(0)
 const leftImgLoaded = ref(false)
 const rightImgLoaded = ref(false)
 const isSliding = ref(false)
+let resizeObserver: ResizeObserver | null = null
 
 // computed refs
 const allImagesLoaded = computed(() => leftImgLoaded.value && rightImgLoaded.value)
@@ -82,41 +83,48 @@ const leftImageClip = computed(() => 1 - sliderPosition.value)
 // computed styles
 const containerStyle = computed((): CSSProperties => {
   return {
-    display: allImagesLoaded.value ? 'flex' : 'none',
+    display: 'flex',
     height: `${containerHeight.value}px`,
+  }
+})
+
+const skeletonStyle = computed((): CSSProperties => {
+  return {
+    display: 'flex',
+    height: `${containerHeight.value || 250}px`,
   }
 })
 
 const rightImageStyle = computed((): CSSProperties => {
   return {
-    clipPath: horizontal ? `inset(0px 0px 0px ${containerWidth.value * rightImageClip.value}px)` : `inset(${containerHeight.value * rightImageClip.value}px 0px 0px 0px)`,
-    ...rightImageCss,
+    clipPath: horizontal.value ? `inset(0px 0px 0px ${containerWidth.value * rightImageClip.value}px)` : `inset(${containerHeight.value * rightImageClip.value}px 0px 0px 0px)`,
+    ...(rightImageCss.value ?? {}),
   }
 })
 
 const leftImageStyle = computed((): CSSProperties => {
   return {
-    clipPath: horizontal ? `inset(0px ${containerWidth.value * leftImageClip.value}px 0px 0px)` : `inset(0px 0px ${containerHeight.value * leftImageClip.value}px 0px)`,
-    ...leftImageCss,
+    clipPath: horizontal.value ? `inset(0px ${containerWidth.value * leftImageClip.value}px 0px 0px)` : `inset(0px 0px ${containerHeight.value * leftImageClip.value}px 0px)`,
+    ...(leftImageCss.value ?? {}),
   }
 })
 
 const sliderStyle = computed((): CSSProperties => {
   return {
-    cursor: !hover.value && horizontal ? 'ew-resize !important' : !hover.value && !horizontal ? 'ns-resize !important' : undefined,
-    flexDirection: horizontal ? 'column' : 'row',
-    height: horizontal ? '100%' : `${handleSize.value}px`,
-    left: horizontal ? `${containerWidth.value * sliderPosition.value - handleSize.value / 2}px` : '0',
-    top: horizontal ? '0' : `${containerHeight.value * sliderPosition.value - handleSize.value / 2}px`,
-    width: horizontal ? `${handleSize.value}px` : '100%',
+    cursor: !hover.value && horizontal.value ? 'ew-resize !important' : !hover.value && !horizontal.value ? 'ns-resize !important' : undefined,
+    flexDirection: horizontal.value ? 'column' : 'row',
+    height: horizontal.value ? '100%' : `${handleSize.value}px`,
+    left: horizontal.value ? `${containerWidth.value * sliderPosition.value - handleSize.value / 2}px` : '0',
+    top: horizontal.value ? '0' : `${containerHeight.value * sliderPosition.value - handleSize.value / 2}px`,
+    width: horizontal.value ? `${handleSize.value}px` : '100%',
   }
 })
 
 const lineStyle = computed((): CSSProperties => {
   return {
     background: sliderLineColor.value,
-    height: horizontal ? '100%' : `${sliderLineWidth.value}px`,
-    width: horizontal ? `${sliderLineWidth.value}px` : '100%',
+    height: horizontal.value ? '100%' : `${sliderLineWidth.value}px`,
+    width: horizontal.value ? `${sliderLineWidth.value}px` : '100%',
   }
 })
 
@@ -125,7 +133,7 @@ const handleDefaultStyle = computed((): CSSProperties => {
     border: `${sliderLineWidth.value}px solid ${sliderLineColor.value}`,
     height: `${handleSize.value}px`,
     width: `${handleSize.value}px`,
-    transform: horizontal ? 'none' : 'rotate(90deg)',
+    transform: horizontal.value ? 'none' : 'rotate(90deg)',
   }
 })
 
@@ -148,37 +156,40 @@ const rightArrowStyle = computed((): CSSProperties => {
 
 const leftLabelStyle = computed((): CSSProperties => {
   return {
-    left: horizontal ? '5%' : '50%',
+    left: horizontal.value ? '5%' : '50%',
     opacity: isSliding.value ? 0 : 1,
-    top: horizontal ? '50%' : '3%',
-    transform: horizontal ? 'translate(0,-50%)' : 'translate(-50%, 0)',
+    top: horizontal.value ? '50%' : '3%',
+    transform: horizontal.value ? 'translate(0,-50%)' : 'translate(-50%, 0)',
   }
 })
 
 const rightLabelStyle = computed((): CSSProperties => {
   return {
     opacity: isSliding.value ? 0 : 1,
-    left: horizontal ? 'unset' : '50%',
-    right: horizontal ? '5%' : 'unset',
-    top: horizontal ? '50%' : 'unset',
-    bottom: horizontal ? 'unset' : '3%',
-    transform: horizontal ? 'translate(0,-50%)' : 'translate(-50%, 0)',
+    left: horizontal.value ? 'unset' : '50%',
+    right: horizontal.value ? '5%' : 'unset',
+    top: horizontal.value ? '50%' : 'unset',
+    bottom: horizontal.value ? 'unset' : '3%',
+    transform: horizontal.value ? 'translate(0,-50%)' : 'translate(-50%, 0)',
   }
 })
 
 const leftLabelContainerStyle = computed((): CSSProperties => {
   return {
-    clip: horizontal ? `rect(auto, ${containerWidth.value * sliderPosition.value}px, auto, auto)` : `rect(auto, auto, ${containerHeight.value * sliderPosition.value}px, auto)`,
+    clip: horizontal.value ? `rect(auto, ${containerWidth.value * sliderPosition.value}px, auto, auto)` : `rect(auto, auto, ${containerHeight.value * sliderPosition.value}px, auto)`,
   }
 })
 
 const rightLabelContainerStyle = computed((): CSSProperties => {
   return {
-    clipPath: horizontal ? `inset(0px 0px 0px ${containerWidth.value * rightImageClip.value}px)` : `inset(${containerHeight.value * rightImageClip.value}px 0px 0px 0px)`,
+    clipPath: horizontal.value ? `inset(0px 0px 0px ${containerWidth.value * rightImageClip.value}px)` : `inset(${containerHeight.value * rightImageClip.value}px 0px 0px 0px)`,
   }
 })
 
 function handleSliding(event: MouseEvent | TouchEvent | KeyboardEvent) {
+  if (!rightImageRef.value)
+    return
+
   const e = event as TouchEvent
 
   // Calc cursor position from the:
@@ -197,22 +208,22 @@ function handleSliding(event: MouseEvent | TouchEvent | KeyboardEvent) {
   const cursorYfromWindow = cursorYfromViewport - window.pageYOffset
 
   // Calc Cursor Position from the left edge of the image
-  const imagePosition = rightImageRef.value!.getBoundingClientRect()
-  let pos = horizontal ? cursorXfromWindow - imagePosition.left : cursorYfromWindow - imagePosition.top
+  const imagePosition = rightImageRef.value.getBoundingClientRect()
+  let pos = horizontal.value ? cursorXfromWindow - imagePosition.left : cursorYfromWindow - imagePosition.top
 
   // Set minimum and maximum value-to-prevent the slider from overflowing
   const minPos = 0 + sliderLineWidth.value / 2
-  const maxPos = horizontal ? containerWidth.value - sliderLineWidth.value / 2 : containerHeight.value - sliderLineWidth.value / 2
+  const maxPos = horizontal.value ? containerWidth.value - sliderLineWidth.value / 2 : containerHeight.value - sliderLineWidth.value / 2
 
   if (pos < minPos)
     pos = minPos
   if (pos > maxPos)
     pos = maxPos
 
-  sliderPosition.value = horizontal ? pos / containerWidth.value : pos / containerHeight.value
+  sliderPosition.value = horizontal.value ? pos / containerWidth.value : pos / containerHeight.value
 
   if (onSliderPositionChange.value)
-    onSliderPositionChange.value(horizontal ? pos / containerWidth.value : pos / containerHeight.value)
+    onSliderPositionChange.value(horizontal.value ? pos / containerWidth.value : pos / containerHeight.value)
 }
 
 function startSliding(e: MouseEvent | TouchEvent | KeyboardEvent) {
@@ -220,7 +231,7 @@ function startSliding(e: MouseEvent | TouchEvent | KeyboardEvent) {
   emit('slideStart', sliderPosition.value)
   emit('isSliding', isSliding.value)
 
-  if (!horizontal)
+  if (!horizontal.value)
     e.preventDefault() // prevent all default + mobile scrolling if vertical
   else if (!('touches' in e))
     e.preventDefault() // prevent default except from mobile scrolling
@@ -261,8 +272,8 @@ function handleOnClick() {
     window.addEventListener('keydown', handleKeyDown)
 }
 
-function handleOnClickOutside(event: KeyboardEvent | MouseEvent) {
-  if (containerRef.value && !containerRef.value.contains(event.target)) {
+function handleOnClickOutside(event: MouseEvent) {
+  if (containerRef.value && event.target instanceof Node && !containerRef.value.contains(event.target)) {
     // The click is outside the container, remove the event listener
     containerRef.value.blur()
     window.removeEventListener('keydown', handleKeyDown)
@@ -270,28 +281,28 @@ function handleOnClickOutside(event: KeyboardEvent | MouseEvent) {
 }
 
 function handleKeyDown(e: KeyboardEvent) {
-  if (e.key === 'ArrowDown' && !horizontal) {
+  if (e.key === 'ArrowDown' && !horizontal.value) {
     e.preventDefault()
     if ((sliderPosition.value + keyboardStep.value) > 1)
       sliderPosition.value = 1
     else
       sliderPosition.value += keyboardStep.value
   }
-  else if (e.key === 'ArrowUp' && !horizontal) {
+  else if (e.key === 'ArrowUp' && !horizontal.value) {
     e.preventDefault()
     if ((sliderPosition.value - keyboardStep.value) < 0)
       sliderPosition.value = 0
     else
       sliderPosition.value -= keyboardStep.value
   }
-  else if (e.key === 'ArrowLeft' && horizontal) {
+  else if (e.key === 'ArrowLeft' && horizontal.value) {
     e.preventDefault()
     if ((sliderPosition.value - keyboardStep.value) < 0)
       sliderPosition.value = 0
     else
       sliderPosition.value -= keyboardStep.value
   }
-  else if (e.key === 'ArrowRight' && horizontal) {
+  else if (e.key === 'ArrowRight' && horizontal.value) {
     e.preventDefault()
     if ((sliderPosition.value + keyboardStep.value) > 1)
       sliderPosition.value = 1
@@ -324,13 +335,14 @@ function forceRenderHover(): void {
 // Make the component responsive
 onMounted(() => {
   const containerElement = containerRef.value
-  const resizeObserver = new ResizeObserver(([entry]) => {
+  if (!containerElement)
+    return
+
+  resizeObserver = new ResizeObserver(([entry]) => {
     const currentContainerWidth = entry.target.getBoundingClientRect().width
     containerWidth.value = currentContainerWidth
   })
   resizeObserver.observe(containerElement)
-
-  return () => resizeObserver.disconnect()
 })
 
 onMounted(() => {
@@ -348,6 +360,8 @@ onMounted(() => {
 onBeforeUnmount(() => {
   const containerElement = containerRef.value
 
+  resizeObserver?.disconnect()
+  resizeObserver = null
   containerElement?.removeEventListener('mousemove', startSliding)
   containerElement?.removeEventListener('mouseleave', finishSliding)
   window.removeEventListener('keydown', handleKeyDown)
@@ -381,6 +395,9 @@ watch(hover, () => {
 watch(
   [() => containerWidth.value, () => leftImgLoaded.value, () => rightImgLoaded.value],
   () => {
+    if (!leftImageRef.value || !rightImageRef.value)
+      return
+
     const leftImageWidthHeightRatio = leftImageRef.value!.naturalHeight / leftImageRef.value!.naturalWidth
     const rightImageWidthHeightRatio = rightImageRef.value!.naturalHeight / rightImageRef.value!.naturalWidth
 
@@ -394,7 +411,7 @@ watch(
 </script>
 
 <template>
-  <div v-if="skeleton && !allImagesLoaded" data-testid="skeleton" :style="containerStyle" v-html="skeleton" />
+  <div v-if="skeleton && !allImagesLoaded" data-testid="skeleton" :style="skeletonStyle" v-html="skeleton" />
   <div
     v-else :id="componentId" ref="containerRef" class="vci--container" tabindex="0" data-testid="vci-container"
     :style="containerStyle" @click="handleOnClick" @touchstart="startSliding" @touchend="finishSliding"
