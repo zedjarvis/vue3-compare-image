@@ -1,15 +1,14 @@
-<!-- eslint-disable @typescript-eslint/semi -->
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 // utilities
-import { ref } from 'vue';
-
-// cassets
-import cat1 from '/src/assets/cat1.jpg';
-import cat2 from '/src/assets/cat2.jpg';
+import { ref } from 'vue'
 
 // components
-import { VueCompareImage } from 'vue3-compare-image';
+import { VueCompareImage } from 'vue3-compare-image'
+
+// cassets
+import cat1 from './assets/cat1.jpg'
+import cat2 from './assets/cat2.jpg'
 
 const hover = ref(false)
 const sliding = ref(false)
