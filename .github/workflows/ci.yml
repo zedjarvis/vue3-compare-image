@@ -4,84 +4,151 @@ on:
   push:
     branches:
       - main
-
   pull_request:
     branches:
       - main
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  lint:
+  quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-
-      - name: Set node
-        uses: actions/setup-node@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 18.x
+          version: 10
 
-      - name: Setup
-        run: npm i -g @antfu/ni
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
 
-      - name: Install
-        run: nci
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: nr lint
-
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-
-      - name: Set node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-
-      - name: Setup
-        run: npm i -g @antfu/ni
-
-      - name: Install
-        run: nci
+        run: pnpm lint
 
       - name: Typecheck
-        run: nr typecheck
+        run: pnpm typecheck
 
   test:
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ubuntu-latest
     strategy:
-      matrix:
-        node: [16.x, 18.x]
-        os: [ubuntu-latest, windows-latest, macos-latest]
       fail-fast: false
-
+      matrix:
+        node-version:
+          - 20
+          - 22
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-
-      - name: Set node ${{ matrix.node }}
-        uses: actions/setup-node@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: ${{ matrix.node }}
+          version: 10
 
-      - name: Setup
-        run: npm i -g @antfu/ni
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
 
-      - name: Install
-        run: nci
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Build
-        run: nr build
+      - name: Unit tests
+        run: pnpm test:run
 
-      - name: Test
-        run: nr test
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Coverage
+        run: pnpm coverage
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: dev/test/coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./dev/test/coverage/lcov.info
+          fail_ci_if_error: false
+          verbose: false
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build package
+        run: pnpm build
+
+      - name: Verify publish contents
+        run: npm pack --dry-run
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build docs
+        run: pnpm docs:build
